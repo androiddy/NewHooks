@@ -25,7 +25,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,13 +32,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import android.app.Application;
 import android.content.Context;
 import android.os.Build.VERSION;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.taobao.android.dexposed.Hook22_23.Dexposed22_23;
 import com.taobao.android.dexposed.XC_MethodHook.MethodHookParam;
 import com.taobao.android.dexposed.XC_MethodHook.Unhook;
@@ -187,18 +183,18 @@ public final class DexposedBridge {
         HookResult result = new HookResult();
         try {
             if (parameterTypesAndCallback.length == 0 || !(parameterTypesAndCallback[parameterTypesAndCallback.length - 1] instanceof XC_MethodHook)) {
-                result.errormsg = "未定义回调接口";
-                result.hookSuccess = false;
+                result.setErrormsg("未定义回调接口");
+                result.setHookSuccess(false);
                 return result;
             }
             HookInfo hookInfo = DexposedBridge.canDexposed(application.getApplicationContext());
             if (hookInfo.isSupport()) {
                 if (DexposedBridge.ART.equals(hookInfo.getModel())) {
-                    result.hookSuccess = hookInfo.getHook().findAndHookMethod(hookname, application.getClassLoader(), clazz.getCanonicalName(), methodName,
+                    result.setHookSuccess(hookInfo.getHook().findAndHookMethod(hookname, application.getClassLoader(), clazz.getCanonicalName(), methodName,
                             FormattedClass((Class<?>) parameterTypesAndCallback[1], parameterTypesAndCallback),
-                            ((Class) parameterTypesAndCallback[0]).getCanonicalName());
-                    if (!result.hookSuccess) {
-                        result.errormsg = "未找到需要hook的方法或者类";
+                            ((Class) parameterTypesAndCallback[0]).getCanonicalName()));
+                    if (!result.isHookSuccess()) {
+                        result.setErrormsg("未找到需要hook的方法或者类");
                     }
                     return result;
                 } else {
@@ -211,17 +207,17 @@ public final class DexposedBridge {
                             allUnhookCallbacks.add(unhook);
                         }
                     }
-                    result.hookSuccess = true;
-                    result.unhook = unhook;
+                    result.setHookSuccess(true);
+                    result.setUnhook(unhook);
                     return result;
                 }
             }
-            result.errormsg = "当前手机不支持所有hook";
-            result.hookSuccess = false;
+            result.setErrormsg("当前手机不支持所有hook");
+            result.setHookSuccess(false);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            result.errormsg = throwable.getLocalizedMessage();
-            result.hookSuccess = false;
+            result.setErrormsg(throwable.getLocalizedMessage());
+            result.setHookSuccess(false);
         }
         return result;
     }

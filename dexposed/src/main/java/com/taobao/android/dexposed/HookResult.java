@@ -6,11 +6,43 @@ package com.taobao.android.dexposed;
  */
 public class HookResult {
 
-    public String type;
+    private String type;
 
-    public String errormsg = "NULL";
+    private String errormsg = "NULL";
 
-    public boolean hookSuccess = false;
+    private boolean hookSuccess = false;
 
-    public XC_MethodHook.Unhook unhook;
+    private XC_MethodHook.Unhook unhook;
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setErrormsg(String errormsg) {
+        this.errormsg = errormsg;
+    }
+
+    public void setHookSuccess(boolean hookSuccess) {
+        this.hookSuccess = hookSuccess;
+    }
+
+    public void setUnhook(XC_MethodHook.Unhook unhook) {
+        this.unhook = unhook;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getErrormsg() {
+        return errormsg;
+    }
+
+    public boolean isHookSuccess() {
+        return hookSuccess;
+    }
+
+    public XC_MethodHook.Unhook getUnhook() {
+        return unhook;
+    }
 }

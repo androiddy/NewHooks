@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void button2(View view) {
-        edit_query.setText(test111());
+        edit_query.setText(test111(1,"1"));
     }
 
     public static String Toasts(Boolean[] booleen, String msg, View[] view) {
@@ -38,12 +38,13 @@ public class MainActivity extends AppCompatActivity {
         return msg;
     }
 
-    public String test111(){
+    public String test111(int c,String ss){
         return "测试3";
     }
 
 
-    public static void test1(Button button){
+    public static int test1(Button button){
         Toast.makeText(App.getContext(), button.getText(), 0).show();
+        return -1;
     }
 }
