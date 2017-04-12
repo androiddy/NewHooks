@@ -32,10 +32,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import android.app.Application;
 import android.content.Context;
 import android.os.Build.VERSION;
 import android.util.Log;
+
 import com.taobao.android.dexposed.Hook22_23.Dexposed22_23;
 import com.taobao.android.dexposed.XC_MethodHook.MethodHookParam;
 import com.taobao.android.dexposed.XC_MethodHook.Unhook;
@@ -52,6 +54,7 @@ public final class DexposedBridge {
     private static int runtime = RUNTIME_UNKNOW;
     private static String DALVIK = "dalvik";
     private static String ART = "art";
+    private static String ART4_5 = "art4.4_5.0";
     private static boolean isLoad = false;
     private static final Object[] EMPTY_ARRAY = new Object[0];
     private static HookInfo hookInfo = new HookInfo();
@@ -197,6 +200,8 @@ public final class DexposedBridge {
                         result.setErrormsg("未找到需要hook的方法或者类");
                     }
                     return result;
+                } else if (hookInfo.getModel().equals(ART4_5)) {
+
                 } else {
                     XC_MethodHook callback = (XC_MethodHook) parameterTypesAndCallback[parameterTypesAndCallback.length - 1];
                     Method m = XposedHelpers.findMethodExact(clazz, methodName, DelParameterTypes(parameterTypesAndCallback));
@@ -376,7 +381,8 @@ public final class DexposedBridge {
                 hookInfo.setSupport(true);
                 hookInfo.setHook(dexposed22_23);
                 hookInfo.setModel(ART);
-            } else if (android.os.Build.VERSION.SDK_INT > 19 && android.os.Build.VERSION.SDK_INT <= 21) {
+            } else if ((android.os.Build.VERSION.SDK_INT >= 19 && android.os.Build.VERSION.SDK_INT < 21) && DeviceCheck.isArtMode()
+                    || android.os.Build.VERSION.SDK_INT == 21) {
                 if (!isLoad) {
                     System.loadLibrary("dexposed_l");
                 }
@@ -408,7 +414,7 @@ public final class DexposedBridge {
     public static native int findAndBackupAndHook(Class targetClass, String methodName, String methodSig,
                                                   Method hook, Method backup);
 
-    public static native void init(int SDK_version);
+    private static native void init(int SDK_version);
 
     public static Object invokeSuper(Object obj, Member method, Object... args) throws NoSuchFieldException {
 

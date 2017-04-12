@@ -20,8 +20,7 @@ import com.taobao.android.dexposed.annotations.OriginalHookMethod;
  *
  * 如果art虚拟机想直接替换原方法 @HookMethod注解方法里面不能调用@OriginalHookMethod注解方法
  */
-@Hook(Class = "com.dexposedart.newhook.MainActivity",
-        Name = "test1", Type = { Button.class})
+@Hook(Class = "com.dexposedart.newhook.MainActivity",Name = "test1", Type = { Button.class})
 public class TestProxy2 extends XC_MethodReplacement {
 
     @HookMethod(MethodName = "HookMethods")

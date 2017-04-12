@@ -14,6 +14,16 @@ public class HookInfo {
 
     private String Model;
 
+    private String errorMsg;
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
     public String getModel() {
         return Model;
     }

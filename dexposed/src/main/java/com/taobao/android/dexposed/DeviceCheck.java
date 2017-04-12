@@ -45,6 +45,14 @@ public class DeviceCheck {
         return false;
     }
 
+    public static boolean isArtMode() {
+        String vmMode = getCurrentRuntimeValue();
+        if ("ART".equals(vmMode)) {
+            return true;
+        }
+        return false;
+    }
+
     private static String getCurrentRuntimeValue() {
         try {
             Class<?> systemProperties = Class
@@ -132,20 +140,20 @@ public class DeviceCheck {
         return false;
     }
 
+
     public static synchronized boolean isDeviceSupport(Context context) {
         // return memory checked value.
         try {
             if (isCheckedDeviceSupport)
                 return isDeviceSupportable;
-            if (!isX86CPU() && !isYunOS() && android.os.Build.VERSION.SDK_INT <= 21) {
+            if (!isX86CPU() && !isYunOS() && android.os.Build.VERSION.SDK_INT <= 20) {
                 isDeviceSupportable = true;
-            } else if (!isYunOS() && android.os.Build.VERSION.SDK_INT > 21 && android.os.Build.VERSION.SDK_INT < 24 && isArt()) {
+            } else if (isArt() && android.os.Build.VERSION.SDK_INT > 21 && android.os.Build.VERSION.SDK_INT < 24) {
                 isDeviceSupportable = true;
             } else {
                 isDeviceSupportable = false;
             }
         } finally {
-            Log.d("hotpatch", "device support is " + isDeviceSupportable + "checked" + isCheckedDeviceSupport);
             isCheckedDeviceSupport = true;
         }
         return isDeviceSupportable;

@@ -30,7 +30,7 @@ public class DalvikArt {
      * created at 17/4/11 02:38
      */
     @Deprecated
-    public static HookResult findAndHookMethod(Application application, Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
+    public synchronized static HookResult findAndHookMethod(Application application, Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
         return DexposedBridge.findAndHookMethod(application, new String[]{"HookMethod", "OriginalHookMethod"}, clazz, methodName, parameterTypesAndCallback);
     }
 
@@ -40,10 +40,11 @@ public class DalvikArt {
      * <p>
      * <p>
      * 提示  6.0 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
-     *@author zhangzhongping
+     *
+     * @author zhangzhongping
      * created at 17/4/12 21:50
      */
-    public static HookResult findAndHookMethod(Application application, Class<?> arthook) {
+    public synchronized static HookResult findAndHookMethod(Application application, Class<?> arthook) {
         Hook hook = arthook.getAnnotation(Hook.class);
         Hooks hooks = arthook.getAnnotation(Hooks.class);
         HookMethod hookMethod1 = null;
