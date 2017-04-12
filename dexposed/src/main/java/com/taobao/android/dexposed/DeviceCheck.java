@@ -146,7 +146,7 @@ public class DeviceCheck {
         try {
             if (isCheckedDeviceSupport)
                 return isDeviceSupportable;
-            if (!isX86CPU() && !isYunOS() && android.os.Build.VERSION.SDK_INT <= 20) {
+            if (!isX86CPU() && !isYunOS() && android.os.Build.VERSION.SDK_INT <= 21) {
                 isDeviceSupportable = true;
             } else if (isArt() && android.os.Build.VERSION.SDK_INT > 21 && android.os.Build.VERSION.SDK_INT < 24) {
                 isDeviceSupportable = true;
