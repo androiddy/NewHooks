@@ -142,7 +142,6 @@ public class DeviceCheck {
 
 
     public static synchronized boolean isDeviceSupport(Context context) {
-        // return memory checked value.
         try {
             if (isCheckedDeviceSupport)
                 return isDeviceSupportable;
