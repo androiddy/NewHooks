@@ -183,21 +183,23 @@ public final class DexposedBridge {
      * @author zhangzhongping
      * created at 17/4/11 02:38
      */
-    protected static HookResult findAndHookMethod(Application application, Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
+    protected static HookResult findAndHookMethod(Application application, String[] hookname, Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
         HookResult result = new HookResult();
         try {
             if (parameterTypesAndCallback.length == 0 || !(parameterTypesAndCallback[parameterTypesAndCallback.length - 1] instanceof XC_MethodHook)) {
-                throw new IllegalArgumentException("no callback defined");
+                result.errormsg = "未定义回调接口";
+                result.hookSuccess = false;
+                return result;
             }
             HookInfo hookInfo = DexposedBridge.canDexposed(application.getApplicationContext());
             if (hookInfo.isSupport()) {
                 if (DexposedBridge.ART.equals(hookInfo.getModel())) {
-                    Log.e("hook", FormattedClass((Class<?>) parameterTypesAndCallback[1], parameterTypesAndCallback));
-                    hookInfo.getHook().findAndHookMethod(application.getClassLoader(), clazz.getCanonicalName(), methodName,
+                    result.hookSuccess = hookInfo.getHook().findAndHookMethod(hookname, application.getClassLoader(), clazz.getCanonicalName(), methodName,
                             FormattedClass((Class<?>) parameterTypesAndCallback[1], parameterTypesAndCallback),
                             ((Class) parameterTypesAndCallback[0]).getCanonicalName());
-                    result.hookSuccess = true;
-                    Log.e("hook", "art hook完毕！但是不代表hook成功");
+                    if (!result.hookSuccess) {
+                        result.errormsg = "未找到需要hook的方法或者类";
+                    }
                     return result;
                 } else {
                     XC_MethodHook callback = (XC_MethodHook) parameterTypesAndCallback[parameterTypesAndCallback.length - 1];
@@ -211,19 +213,18 @@ public final class DexposedBridge {
                     }
                     result.hookSuccess = true;
                     result.unhook = unhook;
-                    Log.e("hook", "dalvik hook完毕！但是不代表hook成功");
                     return result;
                 }
             }
-            Log.e("hook", "当前手机不支持所有hook");
+            result.errormsg = "当前手机不支持所有hook";
             result.hookSuccess = false;
         } catch (Throwable throwable) {
             throwable.printStackTrace();
+            result.errormsg = throwable.getLocalizedMessage();
             result.hookSuccess = false;
         }
         return result;
     }
-
 
     //根据参数4分割并格式化方法的签名 用于art hook参数，dalvik Hook无需此方法
     //此方法为了用户在编写hook调用时更方便
@@ -360,7 +361,7 @@ public final class DexposedBridge {
     /**
      * Check device if can run dexposed, and load libs auto.
      */
-    public synchronized static HookInfo canDexposed(Context context) {
+    private synchronized static HookInfo canDexposed(Context context) {
         hookInfo = new HookInfo();
         if (!DeviceCheck.isDeviceSupport(context)) {
             hookInfo.setSupport(false);
@@ -374,7 +375,7 @@ public final class DexposedBridge {
             if (android.os.Build.VERSION.SDK_INT >= 22 && android.os.Build.VERSION.SDK_INT <= 23) {
                 if (!isLoad) {
                     System.loadLibrary("dexposed_22_23");
-                    DexposedBridge.init(android.os.Build.VERSION.SDK_INT);
+                    init(android.os.Build.VERSION.SDK_INT);
                 }
                 hookInfo.setSupport(true);
                 hookInfo.setHook(dexposed22_23);
@@ -408,8 +409,8 @@ public final class DexposedBridge {
             throws IllegalAccessException, IllegalArgumentException,
             InvocationTargetException;
 
-    public static native void findAndBackupAndHook(Class targetClass, String methodName, String methodSig,
-                                                   Method hook, Method backup);
+    public static native int findAndBackupAndHook(Class targetClass, String methodName, String methodSig,
+                                                  Method hook, Method backup);
 
     public static native void init(int SDK_version);
 

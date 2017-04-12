@@ -95,17 +95,17 @@ static void doBackupAndHook(void *originMethod, void *hookMethod, void *backupMe
     LOGI("hook and backup done");
 }
 
-void Java_com_taobao_android_dexposed_DexposedBridge_findAndBackupAndHook(JNIEnv *env, jclass clazz,
+int Java_com_taobao_android_dexposed_DexposedBridge_findAndBackupAndHook(JNIEnv *env, jclass clazz,
     jclass targetClass, jstring methodName, jstring methodSig, jobject hook, jobject backup) {
     if(!methodName || !methodSig) {
         LOGE("empty method name or signature");
-        return;
+        return 0;
     }
     const char *c_methodName = (*env)->GetStringUTFChars(env, methodName, NULL);
     const char *c_methodSig = (*env)->GetStringUTFChars(env, methodSig, NULL);
     if(c_methodName == NULL || c_methodSig == NULL) {
         LOGE("failed to get c string");
-        return;
+        return 0;
     }
     void *targetMethod = NULL;
     LOGI("Start findAndBackupAndHook for method %s%s", c_methodName, c_methodSig);
@@ -120,12 +120,16 @@ void Java_com_taobao_android_dexposed_DexposedBridge_findAndBackupAndHook(JNIEnv
         if((*env)->ExceptionCheck(env)) {
             (*env)->ExceptionClear(env); //cannot find static method
             LOGE("Cannot find target method %s%s", c_methodName, c_methodSig);
-            goto end;
+            (*env)->ReleaseStringUTFChars(env, methodName, c_methodName);
+            (*env)->ReleaseStringUTFChars(env, methodSig, c_methodSig);
+            return 0;
         }
     }
     doBackupAndHook(targetMethod, (void *)(*env)->FromReflectedMethod(env, hook),
         backup==NULL ? NULL : (void *)(*env)->FromReflectedMethod(env, backup));
-
+    (*env)->ReleaseStringUTFChars(env, methodName, c_methodName);
+    (*env)->ReleaseStringUTFChars(env, methodSig, c_methodSig);
+    return 1;
 end:
     (*env)->ReleaseStringUTFChars(env, methodName, c_methodName);
     (*env)->ReleaseStringUTFChars(env, methodSig, c_methodSig);

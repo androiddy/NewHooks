@@ -2,6 +2,7 @@ package com.dexposedart.newhook;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.dexposedart.newhook.TestHook.TestHookMeanager;
 
@@ -16,7 +17,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        TestHookMeanager.getTestHookMeanager().StartFrameHook(this);
+        CrashHandler.getInstance().init(this);
+        Log.e("123",TestHookMeanager.getTestHookMeanager().StartFrameHook(this)+"");
+        Log.e("123",TestHookMeanager.getTestHookMeanager().StartFrameHook1(this)+"");
+        Log.e("123",TestHookMeanager.getTestHookMeanager().StartFrameHook2(this)+"");
     }
 
     public static Context getContext() {

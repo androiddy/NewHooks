@@ -37,7 +37,7 @@ public abstract class XC_MethodReplacement extends XC_MethodHook {
 		}
 	}
 	
-	protected final void afterHookedMethod(MethodHookParam param) throws Throwable {}
+	protected  final void afterHookedMethod(MethodHookParam param) throws Throwable {}
 	
 	/**
 	 * Shortcut for replacing a method completely. Whatever is returned/thrown here is taken

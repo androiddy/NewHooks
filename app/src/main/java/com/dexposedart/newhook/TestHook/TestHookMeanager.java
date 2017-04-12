@@ -27,15 +27,26 @@ public class TestHookMeanager {
     }
 
     public boolean StartFrameHook(Application application) {
-        HookResult andHookMethod = DalvikArt.findAndHookMethod(application,
-                MainActivity.class, "Toasts", TestProxy1.class, void.class, boolean[].class,
+/*        HookResult andHookMethod = DalvikArt.findAndHookMethod(application,
+                MainActivity.class, "Toasts", TestProxy1.class, void.class, Boolean[].class,
                 String.class, View[].class, new XC_MethodReplacement() {
                     @Override
                     protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                         Toast.makeText(App.getContext(), param.args[1] + " Hook1", 0).show();
                         return null;
                     }
-                });
-        return andHookMethod.hookSuccess;
+                });*/
+        HookResult andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy1.class);
+        return andHookMethods.hookSuccess;
+    }
+
+    public boolean StartFrameHook1(Application application) {
+        HookResult andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy2.class);
+        return andHookMethods.hookSuccess;
+    }
+
+    public boolean StartFrameHook2(Application application) {
+        HookResult andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy3.class);
+        return andHookMethods.hookSuccess;
     }
 }

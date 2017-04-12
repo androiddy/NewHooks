@@ -8,7 +8,9 @@ public class HookResult {
 
     public String type;
 
-    public boolean hookSuccess;
+    public String errormsg = "NULL";
+
+    public boolean hookSuccess = false;
 
     public XC_MethodHook.Unhook unhook;
 }

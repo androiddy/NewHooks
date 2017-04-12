@@ -1,6 +1,8 @@
 package com.dexposedart.newhook.TestHook;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.dexposedart.newhook.App;
@@ -15,22 +17,22 @@ import com.taobao.android.dexposed.annotations.OriginalHookMethod;
  * 邮箱：android_dy@163.com
  */
 @Hook(Class = "com.dexposedart.newhook.MainActivity",
-        Name = "Toasts", Type = {String.class, Boolean[].class, String.class, View[].class})
-public class TestProxy1 extends XC_MethodReplacement {
+        Name = "test1", Type = {void.class, Button.class})
+public class TestProxy2 extends XC_MethodReplacement {
 
     @HookMethod(MethodName = "HookMethods")
-    public static Object HookMethods(Boolean[] booleen, String msg, View[] view) {
-        Toast.makeText(App.getContext(), msg + "->Hook", 0).show();
-        return OriginalHookMethods(booleen, msg, view) + "Hook";
+    public static Object HookMethods(Button view) {
+        Toast.makeText(App.getContext(), view.getText() + "->hook", 0).show();
+        return new Object();
     }
 
     @OriginalHookMethod(MethodName = "OriginalHookMethods")
-    public static Object OriginalHookMethods(Boolean[] booleen, String msg, View[] view) {
+    public static Object OriginalHookMethods(Button sequence) {
         return new Object();
     }
 
     @Override
     protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-        return HookMethods((Boolean[]) param.args[0], (String) param.args[1], (View[]) param.args[2]);
+        return HookMethods((Button) param.args[0]);
     }
 }

@@ -18,6 +18,8 @@
 
 package com.taobao.android.dexposed;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -569,10 +571,10 @@ public class ClassUtils {
 
     private static String toCanonicalNames(String className) {
         className = deleteWhitespace(className);
+        StringBuilder classNameBuffer = new StringBuilder();
         if (className == null) {
             throw new NullPointerException("className must not be null.");
         } else if (className.endsWith("[]")) {
-            StringBuilder classNameBuffer = new StringBuilder();
             while (className.endsWith("[]")) {
                 className = className.substring(0, className.length() - 2);
                 classNameBuffer.append("[");
@@ -584,8 +586,15 @@ public class ClassUtils {
                 classNameBuffer.append("L").append(className).append(";");
             }
             return classNameBuffer.toString().replace(".", "/");
+        } else {
+            String abbreviation = abbreviationMap.get(className);
+            if (abbreviation != null) {
+                classNameBuffer.append(abbreviation);
+            } else {
+                classNameBuffer.append("L").append(className).append(";");
+            }
         }
-        return "L".concat(className).concat(";").replace(".", "/");
+        return classNameBuffer.toString().replace(".", "/");
     }
 
     /**

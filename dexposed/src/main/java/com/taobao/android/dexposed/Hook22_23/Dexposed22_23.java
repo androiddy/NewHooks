@@ -17,9 +17,9 @@ public class Dexposed22_23 {
 
     }
 
-    public boolean findAndHookMethod(ClassLoader originClassLoader,String ... strings) {
+    public boolean findAndHookMethod(String[] hookname, ClassLoader originClassLoader, String... strings) {
         try {
-            Class<?> hookItem = Class.forName(strings[strings.length-1]);
+            Class<?> hookItem = Class.forName(strings[strings.length - 1]);
             if (strings[0] == null || strings[0].equals("")) {
                 return false;
             }
@@ -27,23 +27,21 @@ public class Dexposed22_23 {
             Method hook = null;
             Method backup = null;
             for (Method method : hookItem.getDeclaredMethods()) {
-                if (method.getName().equals("HookMethod")) {
+                if (method.getName().equals(hookname[0])) {
                     hook = method;
-                } else if (method.getName().equals("OriginalHookMethod")) {
+                } else if (method.getName().equals(hookname[1])) {
                     backup = method;
                 }
             }
             if (hook == null) {
                 return false;
             }
-            DexposedBridge.findAndBackupAndHook(clazz, strings[1], strings[2], hook, backup);
-            return true;
+            int andBackupAndHook = DexposedBridge.findAndBackupAndHook(clazz, strings[1], strings[2], hook, backup);
+            return andBackupAndHook == 1;
         } catch (Throwable e) {
             e.printStackTrace();
             return false;
         }
     }
-
-
 
 }
