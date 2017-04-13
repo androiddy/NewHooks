@@ -45,7 +45,7 @@ public class HookUtils {
         Class[] type = hook == null ? ClassLoad(hooks.Type(), application) : hook.Type();
         Object[] obj = new Object[type.length + 1];
         Class type1 = clazz.getDeclaredMethod(methodName, type).getReturnType();
-        String c = type1.getCanonicalName();
+        String c = type1.getName();
         Class retvar;
         if (abbreviationMap.get(c) != null) {
             retvar = abbreviationMap.get(c);
