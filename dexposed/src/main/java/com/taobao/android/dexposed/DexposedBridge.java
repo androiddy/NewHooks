@@ -39,6 +39,8 @@ import android.os.Build.VERSION;
 import android.util.Log;
 
 import com.taobao.android.dexposed.Hook22_23.Dexposed22_23;
+import com.taobao.android.dexposed.Hook22_23.utils.HookInfo;
+import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
 import com.taobao.android.dexposed.XC_MethodHook.MethodHookParam;
 import com.taobao.android.dexposed.XC_MethodHook.Unhook;
 import com.taobao.android.dexposed.XC_MethodHook.XC_MethodKeepHook;
@@ -193,9 +195,9 @@ public final class DexposedBridge {
             HookInfo hookInfo = DexposedBridge.canDexposed(application.getApplicationContext());
             if (hookInfo.isSupport()) {
                 if (DexposedBridge.ART.equals(hookInfo.getModel())) {
-                    result.setHookSuccess(hookInfo.getHook().findAndHookMethod(hookname, application.getClassLoader(), clazz.getCanonicalName(), methodName,
+                    result.setHookSuccess(hookInfo.getHook().findAndHookMethod(hookname, application.getClassLoader(), clazz.getName(), methodName,
                             FormattedClass((Class<?>) parameterTypesAndCallback[1], parameterTypesAndCallback),
-                            ((Class) parameterTypesAndCallback[0]).getCanonicalName()));
+                            ((Class) parameterTypesAndCallback[0]).getName()));
                     if (!result.isHookSuccess()) {
                         result.setErrormsg("未找到需要hook的方法或者类");
                     }
@@ -213,7 +215,6 @@ public final class DexposedBridge {
                         }
                     }
                     result.setHookSuccess(true);
-                    result.setUnhook(unhook);
                     return result;
                 }
             }

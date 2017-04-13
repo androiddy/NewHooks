@@ -25,7 +25,6 @@ import java.lang.reflect.Method;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
 public class DeviceCheck {
 
@@ -74,7 +73,6 @@ public class DeviceCheck {
                     } else if (LIB_ART_D.equals(value)) {
                         return "ART debug build";
                     }
-
                     return value;
                 } catch (IllegalAccessException e) {
                     return "IllegalAccessException";
@@ -121,14 +119,12 @@ public class DeviceCheck {
                 } catch (Exception e) {
                 }
             }
-
             if (ir != null) {
                 try {
                     ir.close();
                 } catch (Exception e) {
                 }
             }
-
             if (process != null) {
                 try {
                     process.destroy();
@@ -136,8 +132,42 @@ public class DeviceCheck {
                 }
             }
         }
-
         return false;
+    }
+
+    public static String LoadCPU() {
+        Process process = null;
+        String abi = null;
+        InputStreamReader ir = null;
+        BufferedReader input = null;
+        try {
+            process = Runtime.getRuntime().exec("getprop ro.product.cpu.abi");
+            ir = new InputStreamReader(process.getInputStream());
+            input = new BufferedReader(ir);
+            abi = input.readLine();
+            return abi;
+        } catch (Exception e) {
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (Exception e) {
+                }
+            }
+            if (ir != null) {
+                try {
+                    ir.close();
+                } catch (Exception e) {
+                }
+            }
+            if (process != null) {
+                try {
+                    process.destroy();
+                } catch (Exception e) {
+                }
+            }
+        }
+        return abi;
     }
 
 

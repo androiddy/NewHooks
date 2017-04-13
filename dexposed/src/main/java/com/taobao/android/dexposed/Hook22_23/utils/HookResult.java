@@ -1,4 +1,4 @@
-package com.taobao.android.dexposed;
+package com.taobao.android.dexposed.Hook22_23.utils;
 
 /**
  * 作者：zhangzhongping on 17/4/11 02:47
@@ -12,8 +12,6 @@ public class HookResult {
 
     private boolean hookSuccess = false;
 
-    private XC_MethodHook.Unhook unhook;
-
     public void setType(String type) {
         this.type = type;
     }
@@ -24,10 +22,6 @@ public class HookResult {
 
     public void setHookSuccess(boolean hookSuccess) {
         this.hookSuccess = hookSuccess;
-    }
-
-    public void setUnhook(XC_MethodHook.Unhook unhook) {
-        this.unhook = unhook;
     }
 
     public String getType() {
@@ -42,7 +36,4 @@ public class HookResult {
         return hookSuccess;
     }
 
-    public XC_MethodHook.Unhook getUnhook() {
-        return unhook;
-    }
 }

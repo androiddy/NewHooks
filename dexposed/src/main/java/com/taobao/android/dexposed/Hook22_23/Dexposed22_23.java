@@ -1,9 +1,11 @@
 package com.taobao.android.dexposed.Hook22_23;
 
+import android.util.Log;
+
 import com.taobao.android.dexposed.DexposedBridge;
-import com.taobao.android.dexposed.HookUtils;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * 作者：zhangzhongping on 17/4/10 23:28
@@ -24,6 +26,9 @@ public class Dexposed22_23 {
                 return false;
             }
             Class<?> clazz = Class.forName(strings[0], true, originClassLoader);
+            if (Modifier.isAbstract(clazz.getModifiers())) {
+                Log.w(TAG, "Hook may fail for abstract class: " + strings[0]);
+            }
             Method hook = null;
             Method backup = null;
             for (Method method : hookItem.getDeclaredMethods()) {

@@ -2,6 +2,8 @@ package com.taobao.android.dexposed;
 
 import android.app.Application;
 
+import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
+import com.taobao.android.dexposed.Hook22_23.utils.HookUtils;
 import com.taobao.android.dexposed.annotations.Hook;
 import com.taobao.android.dexposed.annotations.HookMethod;
 import com.taobao.android.dexposed.annotations.Hooks;

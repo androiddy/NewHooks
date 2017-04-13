@@ -1,12 +1,12 @@
-package com.taobao.android.dexposed;
+package com.taobao.android.dexposed.Hook22_23.utils;
 
 
 import android.app.Application;
 
+import com.taobao.android.dexposed.XC_MethodHook;
+import com.taobao.android.dexposed.XC_MethodReplacement;
 import com.taobao.android.dexposed.annotations.Hook;
 import com.taobao.android.dexposed.annotations.Hooks;
-
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,21 +39,21 @@ public class HookUtils {
     }
 
     public static Object[] ClassJX(Hook hook, Hooks hooks, Class arthook, Application application) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException {
-        XC_MethodReplacement xc_methodReplacement = (XC_MethodReplacement) arthook.newInstance();
+        XC_MethodHook xc_methodReplacement = (XC_MethodHook) arthook.newInstance();
         Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application.getClassLoader());
         String methodName = hook == null ? hooks.Name() : hook.Name();
         Class[] type = hook == null ? ClassLoad(hooks.Type(), application) : hook.Type();
         Object[] obj = new Object[type.length + 1];
-        Type type1 = clazz.getDeclaredMethod(methodName, type).getGenericReturnType();
-        String c = type1.toString().replace("class ", "");
-        Class ret;
+        Class type1 = clazz.getDeclaredMethod(methodName, type).getReturnType();
+        String c = type1.getCanonicalName();
+        Class retvar;
         if (abbreviationMap.get(c) != null) {
-            ret = abbreviationMap.get(c);
+            retvar = abbreviationMap.get(c);
         } else {
-            ret = Class.forName(c, true, application.getClassLoader());
+            retvar = Class.forName(c, true, application.getClassLoader());
         }
         System.arraycopy(type, 0, obj, 1, type.length);
-        obj[0] = ret;
+        obj[0] = retvar;
         Object[] objects = new Object[obj.length + 2];
         System.arraycopy(obj, 0, objects, 1, obj.length);
         objects[0] = arthook;

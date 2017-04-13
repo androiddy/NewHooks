@@ -133,4 +133,5 @@ int Java_com_taobao_android_dexposed_DexposedBridge_findAndBackupAndHook(JNIEnv 
 end:
     (*env)->ReleaseStringUTFChars(env, methodName, c_methodName);
     (*env)->ReleaseStringUTFChars(env, methodSig, c_methodSig);
+    return 0;
 }

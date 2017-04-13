@@ -3,7 +3,7 @@ package com.dexposedart.newhook.TestHook;
 import android.app.Application;
 
 import com.taobao.android.dexposed.DalvikArt;
-import com.taobao.android.dexposed.HookResult;
+import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
 
 
 /**
