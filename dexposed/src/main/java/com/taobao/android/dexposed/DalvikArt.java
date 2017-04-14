@@ -26,7 +26,7 @@ public class DalvikArt {
      * 参数4顺序不能变
      * <p>
      * <p>
-     * 提示  6.0 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
+     * 提示  Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
      *
      * @author zhangzhongping
      * created at 17/4/11 02:38
@@ -41,7 +41,7 @@ public class DalvikArt {
      * 参数2 = Hook 或 Hooks注解类
      * <p>
      * <p>
-     * 提示  6.0 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
+     * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
      *
      * @author zhangzhongping
      * created at 17/4/12 21:50

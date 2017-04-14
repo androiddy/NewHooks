@@ -10,6 +10,7 @@
 void hook_new_entry_24();
 void hook_new_entry_23();
 void hook_new_entry_22();
+void hook_new_entry_21();
 
 static int OFFSET_dex_cache_resolved_methods_in_ArtMethod;
 static int OFFSET_entry_point_from_quick_compiled_code_in_ArtMethod;
@@ -81,6 +82,18 @@ void Java_com_taobao_android_dexposed_DexposedBridge_init(JNIEnv *env, jclass cl
             ArtMethodSize = 48;
             hook_new_entry = (void *)hook_new_entry_22;
             break;
+        case 21:
+            LOGI("init to SDK %d", sdkVersion);
+            OFFSET_dex_cache_resolved_methods_in_ArtMethod = 12;
+            OFFSET_entry_point_from_quick_compiled_code_in_ArtMethod = 40;
+            OFFSET_entry_point_from_jni_in_ArtMethod = 32;
+            OFFSET_dex_method_index_in_ArtMethod = 64;
+            OFFSET_array_in_PointerArray = 12;
+            OFFSET_ArtMehod_in_Object = 8;
+            pointer_size = sizeof(void *);
+            ArtMethodSize = 64;
+            hook_new_entry = (void *)hook_new_entry_21;
+            break;
         default:
             LOGE("not compatible with SDK %d", sdkVersion);
             break;
@@ -139,8 +152,8 @@ int Java_com_taobao_android_dexposed_DexposedBridge_findAndBackupAndHook(JNIEnv 
     }
     doBackupAndHook(targetMethod, (void *)(*env)->FromReflectedMethod(env, hook), 
         backup==NULL ? NULL : (void *)(*env)->FromReflectedMethod(env, backup));
-        (*env)->ReleaseStringUTFChars(env, methodName, c_methodName);
-        (*env)->ReleaseStringUTFChars(env, methodSig, c_methodSig);
+    (*env)->ReleaseStringUTFChars(env, methodName, c_methodName);
+    (*env)->ReleaseStringUTFChars(env, methodSig, c_methodSig);
     return 1;
 end:
     (*env)->ReleaseStringUTFChars(env, methodName, c_methodName);
