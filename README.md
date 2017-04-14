@@ -1,6 +1,8 @@
 # NewHooks
 基于YAHFA和dexposed 结合的hook框架  支持4.0-7.0
 
+2017-4-14 14:23    1.优化HookMethod和OriginalHookMethod注解,去除参数由框架自动获取；   2.新增多hook方法(传入多个代理类.class即可，返回List)
+
 2017-4-14 13:31：  1.新增支持安卓5.0Hook：  2.纠正5.0Hook判断逻辑
 
 2017-4-14 01:09：  1.新增支持安卓7.0Hook(实验)；  2.完善小细节；
