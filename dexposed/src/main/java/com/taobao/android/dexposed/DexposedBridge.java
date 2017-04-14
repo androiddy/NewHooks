@@ -374,7 +374,7 @@ public final class DexposedBridge {
 
     private static HookInfo loadDexposedLib(Context context) {
         try {
-            if (android.os.Build.VERSION.SDK_INT >= 22 && android.os.Build.VERSION.SDK_INT <= 24) {
+            if (android.os.Build.VERSION.SDK_INT >= 21 && android.os.Build.VERSION.SDK_INT <= 24) {
                 if (!isLoad) {
                     System.loadLibrary("dexposed_22_23");
                     init(android.os.Build.VERSION.SDK_INT);
@@ -382,8 +382,7 @@ public final class DexposedBridge {
                 hookInfo.setSupport(true);
                 hookInfo.setHook(dexposed22_23);
                 hookInfo.setModel(ART);
-            } else if ((android.os.Build.VERSION.SDK_INT >= 19 && android.os.Build.VERSION.SDK_INT < 21) && DeviceCheck.isArtMode()
-                    || android.os.Build.VERSION.SDK_INT == 21) {
+            } else if ((android.os.Build.VERSION.SDK_INT >= 19 && android.os.Build.VERSION.SDK_INT < 21) && DeviceCheck.isArtMode()) {
                 if (!isLoad) {
                     System.loadLibrary("dexposed_l");
                 }
