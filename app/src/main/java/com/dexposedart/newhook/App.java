@@ -13,14 +13,15 @@ import com.dexposedart.newhook.TestHook.TestHookMeanager;
 public class App extends Application {
 
     private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        context = this;
-        CrashHandler.getInstance().init(this);
-        Log.e("123",TestHookMeanager.getTestHookMeanager().StartFrameHook(this)+"");
-        Log.e("123",TestHookMeanager.getTestHookMeanager().StartFrameHook1(this)+"");
-        Log.e("123",TestHookMeanager.getTestHookMeanager().StartFrameHook2(this)+"");
+        context = getApplicationContext();
+        CrashHandler.getInstance().init(context);
+        Log.e("123", TestHookMeanager.getTestHookMeanager().StartFrameHook(this) + "");
+        boolean[] booleen = TestHookMeanager.getTestHookMeanager().StartFrameHook1(this);
+        Log.e("123", booleen[0] + "--" + booleen[1]);
     }
 
     public static Context getContext() {

@@ -202,8 +202,6 @@ public final class DexposedBridge {
                         result.setErrormsg("未找到需要hook的方法或者类");
                     }
                     return result;
-                } else if (hookInfo.getModel().equals(ART4_5)) {
-
                 } else {
                     XC_MethodHook callback = (XC_MethodHook) parameterTypesAndCallback[parameterTypesAndCallback.length - 1];
                     Method m = XposedHelpers.findMethodExact(clazz, methodName, DelParameterTypes(parameterTypesAndCallback));

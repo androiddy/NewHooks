@@ -10,6 +10,8 @@ import com.taobao.android.dexposed.annotations.Hooks;
 import com.taobao.android.dexposed.annotations.OriginalHookMethod;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,6 +29,8 @@ public class DalvikArt {
      * <p>
      * <p>
      * 提示  Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
+     * <p>
+     * 5.0 以上可能不支持hook系统函数
      *
      * @author zhangzhongping
      * created at 17/4/11 02:38
@@ -40,8 +44,12 @@ public class DalvikArt {
      * 参数1 = Application
      * 参数2 = Hook 或 Hooks注解类
      * <p>
+     * 此方法可以用于Hook1个方法
+     * <p>
      * <p>
      * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
+     * <p>
+     * 5.0 以上可能不支持hook系统函数
      *
      * @author zhangzhongping
      * created at 17/4/12 21:50
@@ -51,14 +59,18 @@ public class DalvikArt {
         Hooks hooks = arthook.getAnnotation(Hooks.class);
         HookMethod hookMethod1 = null;
         OriginalHookMethod originalHookMethod = null;
+        Method HookMethod = null;
+        Method OriginalHookMethod = null;
         HookResult hookResult = new HookResult();
         if (hook != null || hooks != null) {
             for (Method hookMethod : arthook.getDeclaredMethods()) {
                 if (hookMethod1 == null) {
                     hookMethod1 = hookMethod.getAnnotation(HookMethod.class);
+                    HookMethod = hookMethod;
                 }
                 if (originalHookMethod == null) {
                     originalHookMethod = hookMethod.getAnnotation(OriginalHookMethod.class);
+                    OriginalHookMethod = hookMethod;
                 }
             }
             if (hookMethod1 == null || originalHookMethod == null) {
@@ -69,7 +81,7 @@ public class DalvikArt {
             try {
                 Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application.getClassLoader());
                 String methodName = hook == null ? hooks.Name() : hook.Name();
-                return DexposedBridge.findAndHookMethod(application, new String[]{hookMethod1.MethodName(), originalHookMethod.MethodName()}, clazz, methodName,
+                return DexposedBridge.findAndHookMethod(application, new String[]{HookMethod.getName(), OriginalHookMethod.getName()}, clazz, methodName,
                         HookUtils.ClassJX(hook, hooks, arthook, application));
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -81,5 +93,27 @@ public class DalvikArt {
         hookResult.setErrormsg("未定义 Hook 注解类");
         hookResult.setHookSuccess(false);
         return hookResult;
+    }
+
+    /**
+     * 参数1 = Application
+     * 参数2 = Hook 或 Hooks注解类数组
+     * <p>
+     * 此方法可以用于Hook多个方法
+     * <p>
+     * <p>
+     * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
+     * <p>
+     * 5.0 以上可能不支持hook系统函数
+     *
+     * @author zhangzhongping
+     * created at 17/4/12 21:50
+     */
+    public synchronized static List<HookResult> findAndHookMethod(Application application, Class<?>... arthook) {
+        List<HookResult> list = new ArrayList<>();
+        for (Class<?> art : arthook) {
+            list.add(findAndHookMethod(application, art));
+        }
+        return list;
     }
 }

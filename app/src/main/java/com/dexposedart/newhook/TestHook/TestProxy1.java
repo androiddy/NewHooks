@@ -25,13 +25,13 @@ import com.taobao.android.dexposed.annotations.OriginalHookMethod;
         Type = {Boolean[].class, String.class, View[].class})
 public class TestProxy1 extends XC_MethodReplacement {
 
-    @HookMethod(MethodName = "HookMethods")
+    @HookMethod()
     public static Object HookMethods(Boolean[] booleen, String msg, View[] view) {
         Toast.makeText(App.getContext(), msg + "->Hook", 0).show();
         return OriginalHookMethods(booleen, msg, view) + "Hook";
     }
 
-    @OriginalHookMethod(MethodName = "OriginalHookMethods")
+    @OriginalHookMethod()
     public static Object OriginalHookMethods(Boolean[] booleen, String msg, View[] view) {
         return new Object();
     }

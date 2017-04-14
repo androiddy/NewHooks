@@ -19,18 +19,18 @@ import com.taobao.android.dexposed.annotations.OriginalHookMethod;
 @Hooks(Class = "com.dexposedart.newhook.MainActivity", Name = "test111", Type = {"int", "java.lang.String"})
 public class TestProxy3 extends XC_MethodReplacement {
 
-    @HookMethod(MethodName = "HookMethods")
-    public static Object HookMethods() {
-        return OriginalHookMethods() + "Hook";
+    @HookMethod()
+    public static Object Hook() {
+        return Original() + "Hook";
     }
 
-    @OriginalHookMethod(MethodName = "OriginalHookMethods")
-    public static Object OriginalHookMethods() {
+    @OriginalHookMethod()
+    public static Object Original() {
         return new Object();
     }
 
     @Override
     protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-        return HookMethods();
+        return Hook();
     }
 }

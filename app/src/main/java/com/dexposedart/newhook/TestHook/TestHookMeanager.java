@@ -5,6 +5,8 @@ import android.app.Application;
 import com.taobao.android.dexposed.DalvikArt;
 import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
 
+import java.util.List;
+
 
 /**
  * 作者：zhangzhongping on 17/4/7 13:31
@@ -26,13 +28,8 @@ public class TestHookMeanager {
         return andHookMethods.isHookSuccess();
     }
 
-    public boolean StartFrameHook1(Application application) {
-        HookResult andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy2.class);
-        return andHookMethods.isHookSuccess();
-    }
-
-    public boolean StartFrameHook2(Application application) {
-        HookResult andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy3.class);
-        return andHookMethods.isHookSuccess();
+    public boolean[] StartFrameHook1(Application application) {
+        List<HookResult> andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy2.class,TestProxy3.class);
+        return new boolean[]{andHookMethods.get(0).isHookSuccess(),andHookMethods.get(1).isHookSuccess()};
     }
 }

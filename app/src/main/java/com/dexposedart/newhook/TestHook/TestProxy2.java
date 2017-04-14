@@ -23,13 +23,13 @@ import com.taobao.android.dexposed.annotations.OriginalHookMethod;
 @Hook(Class = "com.dexposedart.newhook.MainActivity",Name = "test1", Type = { Button.class})
 public class TestProxy2 extends XC_MethodReplacement {
 
-    @HookMethod(MethodName = "HookMethods")
+    @HookMethod()
     public static Object HookMethods(Button view) {
         Toast.makeText(App.getContext(), view.getText() + "->hook", 0).show();
         return new Object();
     }
 
-    @OriginalHookMethod(MethodName = "OriginalHookMethods")
+    @OriginalHookMethod()
     public static Object OriginalHookMethods(Button sequence) {
         return new Object();
     }
