@@ -1,6 +1,6 @@
 package com.dexposedart.newhook.TestHook;
 
-import android.view.View;
+import android.widget.Button;
 
 import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
 import com.taobao.android.dexposed.XC_MethodHook;
@@ -17,9 +17,9 @@ import com.taobao.android.dexposed.annotations.Hook;
  * <p>
  * 如果art虚拟机想直接替换原方法 @HookMethod注解方法里面不能调用@OriginalHookMethod注解方法
  */
-@Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "Toasts",
-        Type = {Boolean[].class, String.class, View[].class})
-public class TestProxy1 extends XC_MethodHook {
+@Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "test4",
+        Type = {Button.class,String.class})
+public class TestProxy4 extends XC_MethodHook {
 
     @Override
     public void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -33,7 +33,7 @@ public class TestProxy1 extends XC_MethodHook {
     public void afterHookedMethod(MethodHookParam param) throws Throwable {
         if (param.isEquals(this)) {
             HookLog.e("afterHookedMethod");
-            param.setResult(param.getResult() + "hook");
+            param.setResult(12);
         }
     }
 }

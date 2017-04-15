@@ -1,1 +1,1 @@
-include ':app', ':dexposed'
+include ':app', ':dexposed', ':hookinject'

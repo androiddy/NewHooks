@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/NewHook.iml" filepath="$PROJECT_DIR$/NewHook.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/dexposed/dexposed.iml" filepath="$PROJECT_DIR$/dexposed/dexposed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hookinject/hookinject.iml" filepath="$PROJECT_DIR$/hookinject/hookinject.iml" />
     </modules>
   </component>
 </project>

@@ -1,9 +1,7 @@
 package com.dexposedart.newhook.TestHook;
 
-import com.taobao.android.dexposed.XC_MethodReplacement;
-import com.taobao.android.dexposed.annotations.HookMethod;
+import com.taobao.android.dexposed.XC_MethodHook;
 import com.taobao.android.dexposed.annotations.Hooks;
-import com.taobao.android.dexposed.annotations.OriginalHookMethod;
 
 
 /**
@@ -17,20 +15,17 @@ import com.taobao.android.dexposed.annotations.OriginalHookMethod;
  * 如果art虚拟机想直接替换原方法 @HookMethod注解方法里面不能调用@OriginalHookMethod注解方法
  */
 @Hooks(Class = "com.dexposedart.newhook.MainActivity", Name = "test111", Type = {"int", "java.lang.String"})
-public class TestProxy3 extends XC_MethodReplacement {
+public class TestProxy3 extends XC_MethodHook {
 
-    @HookMethod()
-    public static Object Hook() {
-        return Original() + "Hook";
-    }
+    @Override
+    public void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-    @OriginalHookMethod()
-    public static Object Original() {
-        return new Object();
     }
 
     @Override
-    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-        return Hook();
+    public void afterHookedMethod(MethodHookParam param) throws Throwable {
+        if(param.isEquals(this)){
+            param.setResult(param.getResult()+" hook");
+        }
     }
 }

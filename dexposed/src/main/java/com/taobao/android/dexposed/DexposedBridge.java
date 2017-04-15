@@ -40,6 +40,7 @@ import android.util.Log;
 
 import com.taobao.android.dexposed.Hook22_23.Dexposed22_23;
 import com.taobao.android.dexposed.Hook22_23.utils.HookInfo;
+import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
 import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
 import com.taobao.android.dexposed.XC_MethodHook.MethodHookParam;
 import com.taobao.android.dexposed.XC_MethodHook.Unhook;
@@ -54,8 +55,8 @@ public final class DexposedBridge {
     private static final int RUNTIME_DALVIK = 1;
     private static final int RUNTIME_ART = 2;
     private static int runtime = RUNTIME_UNKNOW;
-    private static String DALVIK = "dalvik";
-    private static String ART = "art";
+    public static String DALVIK = "dalvik";
+    public static String ART = "art";
     private static String ART4_5 = "art4.4_5.0";
     private static boolean isLoad = false;
     private static final Object[] EMPTY_ARRAY = new Object[0];
@@ -92,7 +93,7 @@ public final class DexposedBridge {
      * @param text log message
      */
     private synchronized static void log(String text) {
-        Log.d("Dexposed", text);
+        HookLog.d(text);
     }
 
     /**
@@ -298,6 +299,7 @@ public final class DexposedBridge {
 
         MethodHookParam param = new MethodHookParam();
         param.method = method;
+        param.Model = DALVIK;
         param.thisObject = thisObject;
         param.args = args;
 

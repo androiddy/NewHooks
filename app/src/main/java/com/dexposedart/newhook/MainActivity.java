@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.taobao.android.dexposed.DeviceCheck;
+import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
 
 public class MainActivity extends AppCompatActivity {
     EditText edit_query;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String Toasts(Boolean[] booleen, String msg, View[] view) {
         Toast.makeText(App.getContext(), msg, 0).show();
+        HookLog.e(msg);
         return msg;
     }
 
@@ -47,5 +49,22 @@ public class MainActivity extends AppCompatActivity {
     public static int test1(Button button){
         Toast.makeText(App.getContext(), button.getText(), 0).show();
         return -1;
+    }
+
+
+    public void button4(View view){
+        Log.e("123",test4((Button) view,"测试4")+"");
+    }
+
+
+
+
+    public static int test4(Button button,String msg){
+        Toast.makeText(App.getContext(), button.getText()+msg, 0).show();
+        test41();
+        return -1;
+    }
+    public static void test41(){
+        Toast.makeText(App.getContext(), "1123", 0).show();
     }
 }

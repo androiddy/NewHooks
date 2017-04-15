@@ -25,21 +25,32 @@
         android:onClick="button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/button"
-        android:layout_alignRight="@+id/button"
+        android:layout_marginTop="24dp"
+        android:text="测试2"
         android:layout_below="@+id/button"
-        android:layout_marginTop="80dp"
-        android:text="测试2" />
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button" />
 
     <Button
         android:id="@+id/button3"
         android:onClick="button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/button2"
+        android:text="测试3"
+        android:layout_below="@+id/button2"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignStart="@+id/button2"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:onClick="button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button3"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/button2"
-        android:layout_marginBottom="16dp"
-        android:text="测试3" />
+        android:layout_alignRight="@+id/button3"
+        android:layout_marginBottom="19dp"
+        android:text="测试4" />
 
 </RelativeLayout>

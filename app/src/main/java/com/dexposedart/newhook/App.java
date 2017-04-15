@@ -22,6 +22,8 @@ public class App extends Application {
         Log.e("123", TestHookMeanager.getTestHookMeanager().StartFrameHook(this) + "");
         boolean[] booleen = TestHookMeanager.getTestHookMeanager().StartFrameHook1(this);
         Log.e("123", booleen[0] + "--" + booleen[1]);
+        Log.e("123", TestHookMeanager.getTestHookMeanager().StartFrameHook4(this) + "");
+        Log.e("123", TestHookMeanager.getTestHookMeanager().StartFrameHook41(this) + "");
     }
 
     public static Context getContext() {
