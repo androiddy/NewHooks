@@ -1,6 +1,8 @@
 # NewHooks
 基于YAHFA和dexposed 结合的hook框架  支持4.0-7.0
 
+2017-4-15 16:21    1.优化hook回调基于apt(减轻hook代码编写量)： 2.去除HookMethod｜OriginalHookMethod 注解：  3.删除原有hook方式,具体使用方式请查看demo（app目录是demo，hookinject是apt代码）
+
 2017-4-14 14:23    1.优化HookMethod和OriginalHookMethod注解,去除参数由框架自动获取；   2.新增多hook方法(传入多个绑定Hook或者Hooks注解的类.class即可，返回List)
 
 2017-4-14 13:31：  1.新增支持安卓5.0Hook：  2.纠正5.0Hook判断逻辑
