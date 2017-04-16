@@ -173,18 +173,6 @@ public final class DexposedBridge {
         return unhooks;
     }
 
-    /**
-     * 参数1 = Context
-     * 参数2 = 需要hook的方法所在类
-     * 参数3 = 需要hook的方法名
-     * 参数4 = (art)代理类+返回值(无返回值写null即可)+所有参数+(dalvik)hook回调
-     * <p>
-     * <p>
-     * 提示  6.0 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
-     *
-     * @author zhangzhongping
-     * created at 17/4/11 02:38
-     */
     protected static HookResult findAndHookMethod(Application application, String[] hookname, Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
         HookResult result = new HookResult();
         try {
@@ -307,11 +295,9 @@ public final class DexposedBridge {
         int beforeIdx = 0;
         do {
             try {
-                HookLog.e("12313123hook");
-                ((XC_MethodHook) callbacksSnapshot[beforeIdx]).beforeHookedMethod(param);
+                param = ((XC_MethodHook) callbacksSnapshot[beforeIdx]).beforeHookedMethod(param);
             } catch (Throwable t) {
                 log(t);
-
                 // reset result (ignoring what the unexpectedly exiting callback did)
                 param.setResult(null);
                 param.returnEarly = false;

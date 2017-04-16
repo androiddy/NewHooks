@@ -17,7 +17,6 @@ import javax.lang.model.element.TypeElement;
 @AutoService(Processor.class)
 public class NewHookProcessor extends AbstractProcessor {
 
-
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Utils.Init();
@@ -27,7 +26,6 @@ public class NewHookProcessor extends AbstractProcessor {
         annotataions.add(Hooks.class.getCanonicalName());
         return annotataions;
     }
-
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
@@ -41,8 +39,6 @@ public class NewHookProcessor extends AbstractProcessor {
         }
         return false;
     }
-
-
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {

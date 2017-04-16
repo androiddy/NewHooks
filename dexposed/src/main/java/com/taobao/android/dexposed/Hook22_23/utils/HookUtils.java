@@ -7,7 +7,6 @@ import com.taobao.android.dexposed.XC_MethodHook;
 import com.taobao.android.dexposed.annotations.Hook;
 import com.taobao.android.dexposed.annotations.Hooks;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -66,16 +65,19 @@ public class HookUtils {
     private static Class[] ClassLoad(String[] strings, Application application) throws Throwable {
         Class[] classes = new Class[strings.length];
         for (int i = 0; i < strings.length; i++) {
-            if (abbreviationMap.get(strings[i]) != null)
+            if (abbreviationMap.get(strings[i]) != null) {
                 classes[i] = abbreviationMap.get(strings[i]);
-            else
+            } else {
                 classes[i] = Class.forName(strings[i], true, application.getClassLoader());
+            }
         }
         return classes;
     }
 
     private static Class<?> AdapterCallBackList(int leng, Class mng, XC_MethodHook xc_methodHook) throws Throwable {
-        if (leng > 8) throw new RuntimeException("需要hook的方法参数大于8");
+        if (leng > 8) {
+            throw new RuntimeException("需要hook的方法参数大于8");
+        }
         return setXc_methodhook(getAptHookClass(mng), xc_methodHook);
     }
 

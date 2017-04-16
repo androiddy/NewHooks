@@ -24,7 +24,6 @@ import javax.lang.model.type.TypeMirror;
 public class getHooks {
     public static void getHooks(Element element, ProcessingEnvironment processingEnv) {
         try {
-            // 判断是否Class
             TypeElement typeElement = (TypeElement) element;
             Hooks hook = element.getAnnotation(Hooks.class);
             ClassName className = ClassName.get("com.taobao.android.dexposed", "XC_MethodHook");
@@ -36,11 +35,10 @@ public class getHooks {
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                     .addParameter(className, "xc_methodhooks")
                     .addStatement("if(xc_methodhook == null){\n xc_methodhook = xc_methodhooks;\n}");
-            String[] classes;
+            String[] classes = null;
             int leng = 0;
             String typeindex = "param.args = new Object[]{";
             String tyoeindes = "OriginalHookMethod(";
-
             String tyoeindess = "OriginalHookMethod(";
             try {
                 classes = hook.Type();
@@ -49,7 +47,7 @@ public class getHooks {
                 List<? extends TypeMirror> classTypeMirror = mte.getTypeMirrors();
                 leng = classTypeMirror.size();
             }
-            String name = "";
+            String name;
             try {
                 name = hook.returnVal();
             } catch (MirroredTypeException e) {
@@ -59,16 +57,16 @@ public class getHooks {
 
             for (int i = 0; i < leng; i++) {
                 String ss = "object" + i;
-                bindViewMethodSpecBuilder.addParameter(TypeName.OBJECT, ss);
-                bindViewMethodSpecBuilders.addParameter(TypeName.OBJECT, ss);
+                bindViewMethodSpecBuilder.addParameter(Utils.reval(classes[i]), ss);
+                bindViewMethodSpecBuilders.addParameter(Utils.reval(classes[i]), ss);
                 if (i == leng - 1) {
                     typeindex = typeindex.concat(ss + "};");
-                    tyoeindes = tyoeindes.concat("param.args[" + i + "])");
+                    tyoeindes = tyoeindes.concat("(" + Utils.reval(classes[i]).toString() + ")param.args[" + i + "])");
                     tyoeindess = tyoeindess.concat(ss + ")");
                 } else {
                     typeindex = typeindex.concat(ss + ",");
                     tyoeindess = tyoeindess.concat(ss + ",");
-                    tyoeindes = tyoeindes.concat("param.args[" + i + "],");
+                    tyoeindes = tyoeindes.concat("(" + Utils.reval(classes[i]).toString() + ")param.args[" + i + "],");
                 }
             }
             if (leng == 0) {

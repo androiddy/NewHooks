@@ -20,47 +20,48 @@ public class Utils {
 
     private static final Map<String, TypeName> abbreviationMap = new HashMap<String, TypeName>();
 
-    private static final Map<String, Object> abbreviationMaps = new HashMap<String, Object>();
+    private static final Map<String, String> abbreviationMaps = new HashMap<String, String>();
 
     public static void Inits() {
-        abbreviationMaps.put("int", 1);
-        abbreviationMaps.put("boolean", true);
-        abbreviationMaps.put("float", 1);
-        abbreviationMaps.put("long", 1);
-        abbreviationMaps.put("short", 1);
-        abbreviationMaps.put("byte", 1);
-        abbreviationMaps.put("double", 1);
-        abbreviationMaps.put("char", 1);
+        abbreviationMaps.put("int", "1");
+        abbreviationMaps.put("boolean", "true");
+        abbreviationMaps.put("float", "1");
+        abbreviationMaps.put("long", "1");
+        abbreviationMaps.put("short", "1");
+        abbreviationMaps.put("byte", "1");
+        abbreviationMaps.put("double", "1");
+        abbreviationMaps.put("char", "1");
         abbreviationMaps.put("void", "void");
-        abbreviationMaps.put("int[]", null);
-        abbreviationMaps.put("boolean[]", null);
-        abbreviationMaps.put("float[]", null);
-        abbreviationMaps.put("long[]", null);
-        abbreviationMaps.put("short[]", null);
-        abbreviationMaps.put("byte[]", null);
-        abbreviationMaps.put("double[]", null);
-        abbreviationMaps.put("char[]", null);
-        abbreviationMaps.put("java.lang.Object", null);
-        abbreviationMaps.put("java.lang.String", null);
-        abbreviationMaps.put("java.lang.Void", null);
-        abbreviationMaps.put("java.lang.Boolean", null);
-        abbreviationMaps.put("java.lang.Byte", null);
-        abbreviationMaps.put("java.lang.Short", null);
-        abbreviationMaps.put("java.lang.Integer", null);
-        abbreviationMaps.put("java.lang.Long", null);
-        abbreviationMaps.put("java.lang.Character", null);
-        abbreviationMaps.put("java.lang.Float", null);
-        abbreviationMaps.put("java.lang.Double", null);
-        abbreviationMaps.put("java.lang.Void[]", null);
-        abbreviationMaps.put("java.lang.Boolean[]", null);
-        abbreviationMaps.put("java.lang.Byte[]", null);
-        abbreviationMaps.put("java.lang.Short[]", null);
-        abbreviationMaps.put("java.lang.Integer[]", null);
-        abbreviationMaps.put("java.lang.Long[]", null);
-        abbreviationMaps.put("java.lang.Character[]", null);
-        abbreviationMaps.put("java.lang.Float[]", null);
-        abbreviationMaps.put("java.lang.Double[]", null);
-        abbreviationMaps.put("java.lang.String[]", null);
+        abbreviationMaps.put("int[]", "new int[]{1}");
+        abbreviationMaps.put("boolean[]", "new boolean[]{true}");
+        abbreviationMaps.put("float[]", "new float[]{1}");
+        abbreviationMaps.put("long[]", "new long[]{1}");
+        abbreviationMaps.put("short[]", "new short[]{1}");
+        abbreviationMaps.put("byte[]", "new byte[]{1}");
+        abbreviationMaps.put("double[]", "new double[]{1}");
+        abbreviationMaps.put("char[]", "new char[]{1}");
+        abbreviationMaps.put("java.lang.Object", "new Object()");
+        abbreviationMaps.put("java.lang.String", "new String()");
+        abbreviationMaps.put("java.lang.Void", "null");
+        abbreviationMaps.put("java.lang.Boolean", "new Boolean(false)");
+        abbreviationMaps.put("java.lang.Byte", "new Byte(\"1\")");
+        abbreviationMaps.put("java.lang.Short", "new Short(\"1\")");
+        abbreviationMaps.put("java.lang.Integer", "new Integer(1)");
+        abbreviationMaps.put("java.lang.Long", "new Long(1)");
+        abbreviationMaps.put("java.lang.Character", "new Character((char) 1)");
+        abbreviationMaps.put("java.lang.Float", "new Float(1)");
+        abbreviationMaps.put("java.lang.Double", "new Double(1)");
+        abbreviationMaps.put("java.lang.Void[]", "null");
+        abbreviationMaps.put("java.lang.Boolean[]", "new Boolean[]{true}");
+        abbreviationMaps.put("java.lang.Byte[]", "new Byte[]{1}");
+        abbreviationMaps.put("java.lang.Short[]", "new Short[]{1}");
+        abbreviationMaps.put("java.lang.Integer[]", "new Integer[]{1}");
+        abbreviationMaps.put("java.lang.Long[]", "new Long[]{(long)1}");
+        abbreviationMaps.put("java.lang.Character[]", "new Character[]{1}");
+        abbreviationMaps.put("java.lang.Float[]", "new Float[]{(float)1}");
+        abbreviationMaps.put("java.lang.Double[]", "new Double[]{(double) 1}");
+        abbreviationMaps.put("java.lang.String[]", "new String[]{\"\"}");
+        abbreviationMaps.put("java.lang.Object[]", "new Object[]{new Object()}");
     }
 
     public static void Init() {
@@ -73,6 +74,7 @@ public class Utils {
         abbreviationMap.put("double", TypeName.DOUBLE);
         abbreviationMap.put("char", TypeName.CHAR);
         abbreviationMap.put("void", TypeName.OBJECT);
+        abbreviationMap.put("java.lang.Object", TypeName.OBJECT);
         abbreviationMap.put("int[]", ClassName.get((Type)int[].class));
         abbreviationMap.put("boolean[]", ClassName.get((Type)boolean[].class));
         abbreviationMap.put("float[]", ClassName.get((Type)float[].class));
@@ -81,8 +83,6 @@ public class Utils {
         abbreviationMap.put("byte[]", ClassName.get((Type)byte[].class));
         abbreviationMap.put("double[]", ClassName.get((Type)double[].class));
         abbreviationMap.put("char[]", ClassName.get((Type)char[].class));
-        abbreviationMap.put("java.lang.Object", TypeName.OBJECT);
-        abbreviationMap.put("java.lang.Object[]",ClassName.get((Type)Object[].class));
         abbreviationMap.put("java.lang.String", ClassName.get("java.lang", "String"));
         abbreviationMap.put("java.lang.Void", ClassName.get("java.lang", "Void"));
         abbreviationMap.put("java.lang.Boolean", ClassName.get("java.lang", "Boolean"));
@@ -93,6 +93,7 @@ public class Utils {
         abbreviationMap.put("java.lang.Character", ClassName.get("java.lang", "Character"));
         abbreviationMap.put("java.lang.Float", ClassName.get("java.lang", "Float"));
         abbreviationMap.put("java.lang.Double", ClassName.get("java.lang", "Double"));
+        abbreviationMap.put("java.lang.Object[]",ClassName.get((Type)Object[].class));
         abbreviationMap.put("java.lang.String[]", ClassName.get((Type)String[].class));
         abbreviationMap.put("java.lang.Void[]", ClassName.get((Type)Void[].class));
         abbreviationMap.put("java.lang.Boolean[]", ClassName.get((Type)Boolean[].class));
@@ -115,11 +116,11 @@ public class Utils {
     public static Object revals(String name) {
         if (abbreviationMaps.get(name)!=null) {
             if (abbreviationMaps.get(name).equals("void")) {
-                return "null";
+                return "new Object()";
             }
             return abbreviationMaps.get(name);
         }
-        return "null";
+        return "new Object()";
     }
 
     public static String getPackageName(TypeElement typeElement) {

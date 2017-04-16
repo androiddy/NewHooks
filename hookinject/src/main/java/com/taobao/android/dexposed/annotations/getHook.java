@@ -7,6 +7,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -25,7 +26,6 @@ public class getHook {
 
     public static void getHook(Element element, ProcessingEnvironment processingEnv) {
         try {
-            // 判断是否Class
             TypeElement typeElement = (TypeElement) element;
             Hook hook = element.getAnnotation(Hook.class);
             ClassName className = ClassName.get("com.taobao.android.dexposed", "XC_MethodHook");
@@ -37,39 +37,50 @@ public class getHook {
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                     .addParameter(className, "xc_methodhooks")
                     .addStatement("if(xc_methodhook == null){\n xc_methodhook = xc_methodhooks;\n}");
-            Class[] classes;
+            Class[] classes = null;
             int leng = 0;
             String typeindex = "param.args = new Object[]{";
             String tyoeindes = "OriginalHookMethod(";
-
             String tyoeindess = "OriginalHookMethod(";
+            List<? extends TypeMirror> classTypeMirror = null;
             try {
                 classes = hook.Type();
                 leng = classes.length;
             } catch (MirroredTypesException mte) {
-                List<? extends TypeMirror> classTypeMirror = mte.getTypeMirrors();
+                classTypeMirror = mte.getTypeMirrors();
                 leng = classTypeMirror.size();
             }
-            String name = "";
+            String name;
             try {
                 name = hook.returnVal().getName();
             } catch (MirroredTypeException e) {
-                TypeMirror classTypeMirror = e.getTypeMirror();
-                name = classTypeMirror.toString();
+                TypeMirror classTypeMirro = e.getTypeMirror();
+                name = classTypeMirro.toString();
             }
 
             for (int i = 0; i < leng; i++) {
                 String ss = "object" + i;
-                bindViewMethodSpecBuilder.addParameter(TypeName.OBJECT, ss);
-                bindViewMethodSpecBuilders.addParameter(TypeName.OBJECT, ss);
+                if (classes != null && classes.length > 0) {
+                    bindViewMethodSpecBuilder.addParameter(Utils.reval(classes[i].getName()), ss);
+                    bindViewMethodSpecBuilders.addParameter(Utils.reval(classes[i].getName()), ss);
+                } else {
+                    bindViewMethodSpecBuilder.addParameter(Utils.reval(classTypeMirror.get(i).toString()), ss);
+                    bindViewMethodSpecBuilders.addParameter(Utils.reval(classTypeMirror.get(i).toString()), ss);
+                }
                 if (i == leng - 1) {
                     typeindex = typeindex.concat(ss + "};");
-                    tyoeindes = tyoeindes.concat("param.args[" + i + "])");
                     tyoeindess = tyoeindess.concat(ss + ")");
+                    if (classes != null && classes.length > 0)
+                        tyoeindes = tyoeindes.concat("(" + Utils.reval(classes[i].getName()).toString() + ")param.args[" + i + "])");
+                    else
+                        tyoeindes = tyoeindes.concat("(" + Utils.reval(classTypeMirror.get(i).toString()).toString() + ")param.args[" + i + "])");
                 } else {
                     typeindex = typeindex.concat(ss + ",");
                     tyoeindess = tyoeindess.concat(ss + ",");
-                    tyoeindes = tyoeindes.concat("param.args[" + i + "],");
+                    if (classes != null && classes.length > 0)
+                        tyoeindes = tyoeindes.concat("(" + Utils.reval(classes[i].getName()).toString() + ")param.args[" + i + "],");
+                    else
+                        tyoeindes = tyoeindes.concat("(" + Utils.reval(classTypeMirror.get(i).toString()).toString() + ")param.args[" + i + "],");
                 }
             }
             if (leng == 0) {
@@ -114,10 +125,8 @@ public class getHook {
                     .addField(fieldSpec.build())
                     .build();
             JavaFile javaFile = JavaFile.builder(Utils.getPackageName(typeElement), typeSpec).build();
-
             javaFile.writeTo(processingEnv.getFiler());
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }

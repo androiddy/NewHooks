@@ -31,7 +31,9 @@ public abstract class XC_MethodReplacement extends XC_MethodHook {
     @Override
     public final MethodHookParam beforeHookedMethod(MethodHookParam param) throws Throwable {
         try {
-            return replaceHookedMethod(param);
+            param = replaceHookedMethod(param);
+            param.returnEarly = true;
+            return param;
         } catch (Throwable t) {
             param.setThrowable(t);
         }
