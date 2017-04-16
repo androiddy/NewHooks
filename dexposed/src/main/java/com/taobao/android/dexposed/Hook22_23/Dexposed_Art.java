@@ -11,11 +11,11 @@ import java.lang.reflect.Modifier;
  * 作者：zhangzhongping on 17/4/10 23:28
  * 邮箱：android_dy@163.com
  */
-public class Dexposed22_23 {
+public class Dexposed_Art {
 
-    private static final String TAG = "Dexposed22_23";
+    private static final String TAG = "dexposed_art";
 
-    public Dexposed22_23() {
+    public Dexposed_Art() {
 
     }
 

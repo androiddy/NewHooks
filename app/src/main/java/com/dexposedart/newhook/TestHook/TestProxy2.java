@@ -21,15 +21,13 @@ import com.taobao.android.dexposed.annotations.OriginalHookMethod;
  * <p>
  * 如果art虚拟机想直接替换原方法 @HookMethod注解方法里面不能调用@OriginalHookMethod注解方法
  */
-@Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "test1", Type = {Button.class})
+@Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "test1", Type = {Button.class},returnVal = int.class)
 public class TestProxy2 extends XC_MethodReplacement {
-
     @Override
-    public void replaceHookedMethod(MethodHookParam param) throws Throwable {
+    public MethodHookParam replaceHookedMethod(MethodHookParam param) throws Throwable {
         if (param.isEquals(this)) {
             Toast.makeText(App.getContext(), ((Button) param.args[0]).getText() + "->hook", 0).show();
         }
+        return param;
     }
-
-
 }

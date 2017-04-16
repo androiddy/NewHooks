@@ -41,7 +41,7 @@ public class HookUtils {
         abbreviationMap.put("char[]", char[].class);
     }
 
-    public static Object[] ClassJX(Hook hook, Hooks hooks, Class arthook, Application application, boolean isTest) throws Throwable {
+    public static Object[] ClassJX(Hook hook, Hooks hooks, Class arthook, Application application) throws Throwable {
         XC_MethodHook xc_methodReplacement = (XC_MethodHook) arthook.newInstance();
         Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application.getClassLoader());
         String methodName = hook == null ? hooks.Name() : hook.Name();
@@ -49,19 +49,15 @@ public class HookUtils {
         Object[] obj = new Object[type.length + 1];
         Class type1 = clazz.getDeclaredMethod(methodName, type).getReturnType();
         String c = type1.getName();
-        Class retvar;
-        if (abbreviationMap.get(c) != null) {
-            retvar = abbreviationMap.get(c);
-        } else {
-            retvar = Class.forName(c, true, application.getClassLoader());
-        }
         System.arraycopy(type, 0, obj, 1, type.length);
-        obj[0] = retvar;
+        if (abbreviationMap.get(c) != null) {
+            obj[0] = abbreviationMap.get(c);
+        } else {
+            obj[0] = Class.forName(c, true, application.getClassLoader());
+        }
         Object[] objects = new Object[obj.length + 2];
         System.arraycopy(obj, 0, objects, 1, obj.length);
-        objects[0] = isTest ?
-                AdapterCallBackList(type.length, arthook,
-                        xc_methodReplacement) : arthook;
+        objects[0] = AdapterCallBackList(type.length, arthook, xc_methodReplacement);
         objects[objects.length - 1] = xc_methodReplacement;
         return objects;
     }
@@ -70,37 +66,32 @@ public class HookUtils {
     private static Class[] ClassLoad(String[] strings, Application application) throws Throwable {
         Class[] classes = new Class[strings.length];
         for (int i = 0; i < strings.length; i++) {
-            if (abbreviationMap.get(strings[i]) != null) {
+            if (abbreviationMap.get(strings[i]) != null)
                 classes[i] = abbreviationMap.get(strings[i]);
-            } else {
+            else
                 classes[i] = Class.forName(strings[i], true, application.getClassLoader());
-            }
         }
         return classes;
     }
 
     private static Class<?> AdapterCallBackList(int leng, Class mng, XC_MethodHook xc_methodHook) throws Throwable {
-        if (leng > 8) {
-            throw new RuntimeException("需要hook的方法参数大于8");
-        }
-        Class<?> obj = getAptHookClass(mng);
-        setXc_methodhook(obj, xc_methodHook);
-        return obj;
+        if (leng > 8) throw new RuntimeException("需要hook的方法参数大于8");
+        return setXc_methodhook(getAptHookClass(mng), xc_methodHook);
     }
 
     private static Class<?> getAptHookClass(Class<?> cl) throws ClassNotFoundException {
         String classname = cl.getName().concat("$Hook");
-        Class<?> aClass = Class.forName(classname);
-        return aClass;
+        return Class.forName(classname);
     }
 
-    private static void setXc_methodhook(Class xc_methodhook, XC_MethodHook xc_methodHook) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Method xc_methodhook1 = xc_methodhook.getDeclaredMethod("setXC_MethodHook",XC_MethodHook.class);
+    private static Class<?> setXc_methodhook(Class<?> xc_methodhook, XC_MethodHook xc_methodHook) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Method xc_methodhook1 = xc_methodhook.getDeclaredMethod("setXC_MethodHook", XC_MethodHook.class);
         if (xc_methodhook1 != null) {
             xc_methodhook1.setAccessible(true);
             xc_methodhook1.invoke(null, xc_methodHook);
-        }else{
+        } else {
             throw new RuntimeException("内部错误");
         }
+        return xc_methodhook;
     }
 }

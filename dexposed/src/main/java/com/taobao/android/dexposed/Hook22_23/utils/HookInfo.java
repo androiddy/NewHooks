@@ -1,7 +1,11 @@
 package com.taobao.android.dexposed.Hook22_23.utils;
 
 
-import com.taobao.android.dexposed.Hook22_23.Dexposed22_23;
+import com.taobao.android.dexposed.Hook22_23.Dexposed_Art;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * 作者：zhangzhongping on 17/4/10 23:29
@@ -11,11 +15,25 @@ public class HookInfo {
 
     private boolean isSupport;
 
-    private Dexposed22_23 hook;
+    private Dexposed_Art hook;
 
     private String Model;
 
     private String errorMsg;
+
+    public void setErrorMsg(Throwable errorMsg) {
+        Writer writer = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(writer);
+        errorMsg.printStackTrace(printWriter);
+        Throwable cause = errorMsg.getCause();
+        while (cause != null) {
+            cause.printStackTrace(printWriter);
+            cause = cause.getCause();
+        }
+        printWriter.flush();
+        printWriter.close();
+        this.errorMsg = writer.toString();
+    }
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
@@ -41,12 +59,12 @@ public class HookInfo {
         isSupport = support;
     }
 
-    public void setHook(Dexposed22_23 hook) {
+    public void setHook(Dexposed_Art hook) {
         this.hook = hook;
     }
 
 
-    public Dexposed22_23 getHook() {
+    public Dexposed_Art getHook() {
         return hook;
     }
 }

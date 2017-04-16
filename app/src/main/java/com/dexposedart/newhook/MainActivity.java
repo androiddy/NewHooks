@@ -32,7 +32,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void button2(View view) {
-        edit_query.setText(test111(1,"1"));
+        Log.e("1234444",nimabi()+"");
+        if(nimabi()){
+            edit_query.setText("测试3");
+        }else{
+            edit_query.setText("测试3hook");
+        }
     }
 
     public static String Toasts(Boolean[] booleen, String msg, View[] view) {
@@ -41,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
         return msg;
     }
 
-    public String test111(int c,String ss){
-        return "测试3";
+    public boolean nimabi(){
+        Log.e("123","nimabo");
+        return true;
     }
 
 

@@ -29,27 +29,29 @@ public abstract class XC_MethodReplacement extends XC_MethodHook {
     }
 
     @Override
-    public final void beforeHookedMethod(MethodHookParam param) throws Throwable {
+    public final MethodHookParam beforeHookedMethod(MethodHookParam param) throws Throwable {
         try {
-            replaceHookedMethod(param);
+            return replaceHookedMethod(param);
         } catch (Throwable t) {
             param.setThrowable(t);
         }
+        return param;
     }
 
-    public final void afterHookedMethod(MethodHookParam param) throws Throwable {
+    public final MethodHookParam afterHookedMethod(MethodHookParam param) throws Throwable {
+        return param;
     }
 
     /**
      * Shortcut for replacing a method completely. Whatever is returned/thrown here is taken
      * instead of the result of the original method (which will not be called).
      */
-    public abstract void replaceHookedMethod(MethodHookParam param) throws Throwable;
+    public abstract MethodHookParam replaceHookedMethod(MethodHookParam param) throws Throwable;
 
     public static final XC_MethodReplacement DO_NOTHING = new XC_MethodReplacement(PRIORITY_HIGHEST * 2) {
         @Override
-        public void replaceHookedMethod(MethodHookParam param) throws Throwable {
-
+        public MethodHookParam replaceHookedMethod(MethodHookParam param) throws Throwable {
+            return param;
         }
     };
 
@@ -66,8 +68,8 @@ public abstract class XC_MethodReplacement extends XC_MethodHook {
     public static XC_MethodReplacement returnConstant(int priority, final Object result) {
         return new XC_MethodReplacement(priority) {
             @Override
-            public void replaceHookedMethod(MethodHookParam param) throws Throwable {
-
+            public MethodHookParam replaceHookedMethod(MethodHookParam param) throws Throwable {
+                return param;
             }
         };
     }

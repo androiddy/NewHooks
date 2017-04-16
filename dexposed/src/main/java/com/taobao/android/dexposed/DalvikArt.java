@@ -6,6 +6,7 @@ import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
 import com.taobao.android.dexposed.Hook22_23.utils.HookUtils;
 import com.taobao.android.dexposed.annotations.Hook;
 import com.taobao.android.dexposed.annotations.Hooks;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class DalvikArt {
      * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
      * <p>
      * 5.0 以上可能不支持hook系统函数
-     *
      */
     public synchronized static HookResult findAndHookMethod(Application application, Class<?> arthook) {
         Hook hook = arthook.getAnnotation(Hook.class);
@@ -37,10 +37,10 @@ public class DalvikArt {
                 Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application.getClassLoader());
                 String methodName = hook == null ? hooks.Name() : hook.Name();
                 return DexposedBridge.findAndHookMethod(application, new String[]{"HookMethod", "OriginalHookMethod"}, clazz, methodName,
-                        HookUtils.ClassJX(hook, hooks, arthook, application,true));
+                        HookUtils.ClassJX(hook, hooks, arthook, application));
             } catch (Throwable e) {
                 e.printStackTrace();
-                hookResult.setErrormsg(e.getLocalizedMessage());
+                hookResult.setErrormsg(e);
                 hookResult.setHookSuccess(false);
                 return hookResult;
             }
@@ -60,7 +60,6 @@ public class DalvikArt {
      * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
      * <p>
      * 5.0 以上可能不支持hook系统函数
-     *
      */
     public synchronized static List<HookResult> findAndHookMethod(Application application, Class<?>... arthook) {
         List<HookResult> list = new ArrayList<>();

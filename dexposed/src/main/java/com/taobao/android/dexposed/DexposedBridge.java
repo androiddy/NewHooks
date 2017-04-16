@@ -38,7 +38,7 @@ import android.content.Context;
 import android.os.Build.VERSION;
 import android.util.Log;
 
-import com.taobao.android.dexposed.Hook22_23.Dexposed22_23;
+import com.taobao.android.dexposed.Hook22_23.Dexposed_Art;
 import com.taobao.android.dexposed.Hook22_23.utils.HookInfo;
 import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
 import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
@@ -61,7 +61,7 @@ public final class DexposedBridge {
     private static boolean isLoad = false;
     private static final Object[] EMPTY_ARRAY = new Object[0];
     private static HookInfo hookInfo = new HookInfo();
-    private static Dexposed22_23 dexposed22_23 = new Dexposed22_23();
+    private static Dexposed_Art dexposed_art = new Dexposed_Art();
     public static final ClassLoader BOOTCLASSLOADER = ClassLoader.getSystemClassLoader();
 
 
@@ -217,11 +217,11 @@ public final class DexposedBridge {
                     return result;
                 }
             }
-            result.setErrormsg("当前手机不支持所有hook");
+            result.setErrormsg(hookInfo.getErrorMsg());
             result.setHookSuccess(false);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            result.setErrormsg(throwable.getLocalizedMessage());
+            result.setErrormsg(throwable);
             result.setHookSuccess(false);
         }
         return result;
@@ -307,6 +307,7 @@ public final class DexposedBridge {
         int beforeIdx = 0;
         do {
             try {
+                HookLog.e("12313123hook");
                 ((XC_MethodHook) callbacksSnapshot[beforeIdx]).beforeHookedMethod(param);
             } catch (Throwable t) {
                 log(t);
@@ -366,6 +367,7 @@ public final class DexposedBridge {
     private synchronized static HookInfo canDexposed(Context context) {
         hookInfo = new HookInfo();
         if (!DeviceCheck.isDeviceSupport(context)) {
+            hookInfo.setErrorMsg("当前手机不支持所有Hook模块");
             hookInfo.setSupport(false);
             return hookInfo;
         }
@@ -376,11 +378,11 @@ public final class DexposedBridge {
         try {
             if (android.os.Build.VERSION.SDK_INT >= 21 && android.os.Build.VERSION.SDK_INT <= 24) {
                 if (!isLoad) {
-                    System.loadLibrary("dexposed_22_23");
+                    System.loadLibrary("dexposed_art");
                     init(android.os.Build.VERSION.SDK_INT);
                 }
                 hookInfo.setSupport(true);
-                hookInfo.setHook(dexposed22_23);
+                hookInfo.setHook(dexposed_art);
                 hookInfo.setModel(ART);
             } else if ((android.os.Build.VERSION.SDK_INT >= 19 && android.os.Build.VERSION.SDK_INT < 21) && DeviceCheck.isArtMode()) {
                 if (!isLoad) {
@@ -401,6 +403,7 @@ public final class DexposedBridge {
             isLoad = true;
             return hookInfo;
         } catch (Throwable e) {
+            hookInfo.setErrorMsg(e);
             hookInfo.setSupport(false);
             return hookInfo;
         }

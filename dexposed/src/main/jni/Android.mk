@@ -9,6 +9,6 @@ endif
 
 LOCAL_LDLIBS    := -llog
 
-LOCAL_MODULE:= dexposed_22_23
+LOCAL_MODULE:= dexposed_art
 
 include $(BUILD_SHARED_LIBRARY)

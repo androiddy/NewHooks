@@ -16,20 +16,21 @@ import com.taobao.android.dexposed.annotations.Hook;
  * <p>
  * 如果art虚拟机想直接替换原方法 @HookMethod注解方法里面不能调用@OriginalHookMethod注解方法
  */
-@Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "test41")
+@Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "test41" , returnVal = void.class)
 public class TestProxy41 extends XC_MethodHook {
-
     @Override
-    public void beforeHookedMethod(MethodHookParam param) throws Throwable {
+    public MethodHookParam beforeHookedMethod(MethodHookParam param) throws Throwable {
         if (param.isEquals(this)) {
             HookLog.e("test41 beforeHookedMethod");
         }
+        return param;
     }
 
     @Override
-    public void afterHookedMethod(MethodHookParam param) throws Throwable {
+    public MethodHookParam afterHookedMethod(MethodHookParam param) throws Throwable {
         if (param.isEquals(this)) {
             HookLog.e("test41 afterHookedMethod");
         }
+        return param;
     }
 }

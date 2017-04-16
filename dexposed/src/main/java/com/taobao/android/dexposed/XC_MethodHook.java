@@ -39,14 +39,14 @@ public abstract class XC_MethodHook extends XCallback {
      * <p>Can use {@link MethodHookParam#setResult(Object)} and {@link MethodHookParam#setThrowable(Throwable)}
      * to prevent the original method from being called.
      */
-    public abstract void beforeHookedMethod(MethodHookParam param) throws Throwable;
+    public abstract MethodHookParam beforeHookedMethod(MethodHookParam param) throws Throwable;
 
     /**
      * Called after the invocation of the method.
      * <p>Can use {@link MethodHookParam#setResult(Object)} and {@link MethodHookParam#setThrowable(Throwable)}
      * to modify the return value of the original method.
      */
-    public abstract void afterHookedMethod(MethodHookParam param) throws Throwable;
+    public abstract MethodHookParam afterHookedMethod(MethodHookParam param) throws Throwable;
 
 
     public static class MethodHookParam extends XCallback.Param {
@@ -65,7 +65,7 @@ public abstract class XC_MethodHook extends XCallback {
          * Arguments to the method call
          */
         public Object[] args;
-        private Object result = null;
+        private Object result = new Object();
         private Throwable throwable = null;
         /* package */ boolean returnEarly = false;
 
