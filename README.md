@@ -9,7 +9,7 @@
 2017-4-16 16:22    1.优化apt自动生成代码，修复某些hook方法(返回值为8种基本类型的方法)无法修改返回值问题； 2.优化注解配合apt生成代码 新增returnVal参数需要手动输入需要hook方法的返回值（具体使用方式请查看demo）
 
 
-2017-4-15 16:21    1.优化hook回调基于apt(减轻hook代码编写量)： 2.去除HookMethod｜OriginalHookMethod 注解：  3.删除原有hook方式,具体使用方式请查看demo（app目录是demo，hookinject是apt代码，dexposed是框架）
+2017-4-15 16:21    1.优化YAHFA部分hook回调基于apt(结合dexposed回调共用一套)： 2.去除HookMethod｜OriginalHookMethod 注解：  3.删除原有hook方式,具体使用方式请查看demo（app目录是demo，hookinject是apt代码，dexposed是框架）
 
 
 2017-4-14 14:23    1.优化HookMethod和OriginalHookMethod注解,去除参数由框架自动获取；   2.新增多hook方法(传入多个绑定Hook或者Hooks注解的类.class即可，返回List)
