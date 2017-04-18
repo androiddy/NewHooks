@@ -18,6 +18,8 @@
 
 package com.taobao.android.dexposed;
 
+import com.taobao.android.dexposed.HookArt.utils.HookLog;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -589,7 +591,11 @@ public class ClassUtils {
             if (abbreviation != null) {
                 classNameBuffer.append(abbreviation);
             } else {
-                classNameBuffer.append("L").append(className).append(";");
+                if (className.startsWith("[")) {
+                    classNameBuffer.append(className);
+                } else {
+                    classNameBuffer.append("L").append(className).append(";");
+                }
             }
         }
         return classNameBuffer.toString().replace(".", "/");

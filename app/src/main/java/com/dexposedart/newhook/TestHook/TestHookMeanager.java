@@ -3,8 +3,8 @@ package com.dexposedart.newhook.TestHook;
 import android.app.Application;
 
 import com.taobao.android.dexposed.DalvikArt;
-import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
-import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
+import com.taobao.android.dexposed.HookArt.utils.HookLog;
+import com.taobao.android.dexposed.HookArt.utils.HookResult;
 
 import java.util.List;
 
@@ -32,6 +32,7 @@ public class TestHookMeanager {
 
     public boolean[] StartFrameHook1(Application application) {
         List<HookResult> andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy2.class, TestProxy3.class);
+        HookLog.e(andHookMethods.get(0).getErrormsg()+"---"+andHookMethods.get(1).getErrormsg());
         return new boolean[]{andHookMethods.get(0).isHookSuccess(), andHookMethods.get(1).isHookSuccess()};
     }
 

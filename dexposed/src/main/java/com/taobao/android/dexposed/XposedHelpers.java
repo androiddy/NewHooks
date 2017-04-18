@@ -35,6 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.WeakHashMap;
 
+import android.app.Application;
 import android.content.res.Resources;
 
 
@@ -142,7 +143,7 @@ public class XposedHelpers {
 	 * objects. In the latter case, the class is looked up using {@link #findClass} with the same
 	 * class loader as the method's class.
 	 */
-	public static Method findMethodExact(Class<?> clazz, String methodName, Object... parameterTypes) {
+	public static Method findMethodExact(Application application,Class<?> clazz, String methodName, Object... parameterTypes) {
 		Class<?>[] parameterClasses = null;
 		for (int i = parameterTypes.length - 1; i >= 0; i--) {
 			Object type = parameterTypes[i];
@@ -159,7 +160,7 @@ public class XposedHelpers {
 			if (type instanceof Class)
 				parameterClasses[i] = (Class<?>) type;
 			else if (type instanceof String)
-				parameterClasses[i] = findClass((String) type, clazz.getClassLoader());
+				parameterClasses[i] = findClass((String) type, application.getClassLoader());
 			else
 				throw new ClassNotFoundError("parameter type must either be specified as Class or String", null);
 		}
@@ -170,7 +171,7 @@ public class XposedHelpers {
 		
 		return findMethodExact(clazz, methodName, parameterClasses);
 	}
-	
+
 //	/**
 //	 * Look up a method and place a hook on it. The last argument must be the callback for the hook.
 //	 * @see #findMethodExact(Class, String, Object...)
@@ -184,10 +185,9 @@ public class XposedHelpers {
 //		
 //		return XposedBridge.hookMethod(m, callback);
 //	}
-	
-	/** @see #findMethodExact(Class, String, Object...) */
-	public static Method findMethodExact(String className, ClassLoader classLoader, String methodName, Object... parameterTypes) {
-		return findMethodExact(findClass(className, classLoader), methodName, parameterTypes);
+
+	public static Method findMethodExact(Application application,String className, String methodName, Object... parameterTypes) {
+		return findMethodExact(application,findClass(className, application.getClassLoader()), methodName, parameterTypes);
 	}
 	
 //	/** @see #findAndHookMethod(Class, String, Object...) */

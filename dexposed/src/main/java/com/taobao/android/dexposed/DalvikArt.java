@@ -2,10 +2,13 @@ package com.taobao.android.dexposed;
 
 import android.app.Application;
 
-import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
-import com.taobao.android.dexposed.Hook22_23.utils.HookUtils;
+import com.taobao.android.dexposed.DexUtils.DexLoaderReplace;
+import com.taobao.android.dexposed.DexUtils.ReplaceResult;
+import com.taobao.android.dexposed.HookArt.utils.HookResult;
+import com.taobao.android.dexposed.HookArt.utils.HookUtils;
 import com.taobao.android.dexposed.annotations.Hook;
 import com.taobao.android.dexposed.annotations.Hooks;
+import com.taobao.android.dexposed.callbacks.DexLoaderCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,20 @@ import java.util.List;
  * 邮箱：android_dy@163.com
  */
 public class DalvikArt {
+    /**
+     * 此方法用于替换内存中dex
+     * 参数1:Application
+     * 参数2:需要替换dex的路径
+     * 参数3:替换完成后接口回调
+     *@author zhangzhongping
+     * created at 17/4/17 19:35
+     */
+    public synchronized static void DexLoaderReplace(Application application, String dexPath, DexLoaderCallBack dexLoaderCallBack) {
+        ReplaceResult replaceResult = DexLoaderReplace.injectAboveEqualApiLevel14(application, dexPath);
+        if (dexLoaderCallBack != null) {
+            dexLoaderCallBack.DexReplaceFinish(replaceResult);
+        }
+    }
 
     /**
      * 参数1 = Application
@@ -26,7 +43,7 @@ public class DalvikArt {
      * <p>
      * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
      * <p>
-     * 5.0 以上可能不支持hook系统函数
+     * 5.0 以上可能不支持hook某些系统函数
      */
     public synchronized static HookResult findAndHookMethod(Application application, Class<?> arthook) {
         Hook hook = arthook.getAnnotation(Hook.class);
@@ -59,7 +76,7 @@ public class DalvikArt {
      * <p>
      * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
      * <p>
-     * 5.0 以上可能不支持hook系统函数
+     * 5.0 以上可能不支持hook某些系统函数
      */
     public synchronized static List<HookResult> findAndHookMethod(Application application, Class<?>... arthook) {
         List<HookResult> list = new ArrayList<>();

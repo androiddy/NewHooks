@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.taobao.android.dexposed.DeviceCheck;
-import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
+import com.taobao.android.dexposed.HookArt.utils.HookLog;
 
 public class MainActivity extends AppCompatActivity {
     EditText edit_query;

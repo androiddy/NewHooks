@@ -24,7 +24,7 @@ public class Utils {
 
     public static void Inits() {
         abbreviationMaps.put("int", "1");
-        abbreviationMaps.put("boolean", "true");
+        abbreviationMaps.put("boolean", "false");
         abbreviationMaps.put("float", "1");
         abbreviationMaps.put("long", "1");
         abbreviationMaps.put("short", "1");
@@ -33,7 +33,7 @@ public class Utils {
         abbreviationMaps.put("char", "1");
         abbreviationMaps.put("void", "void");
         abbreviationMaps.put("int[]", "new int[]{1}");
-        abbreviationMaps.put("boolean[]", "new boolean[]{true}");
+        abbreviationMaps.put("boolean[]", "new boolean[]{false}");
         abbreviationMaps.put("float[]", "new float[]{1}");
         abbreviationMaps.put("long[]", "new long[]{1}");
         abbreviationMaps.put("short[]", "new short[]{1}");

@@ -1,4 +1,4 @@
-package com.taobao.android.dexposed.Hook22_23.utils;
+package com.taobao.android.dexposed.HookArt.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,7 +12,7 @@ public class HookResult {
 
     private String type;
 
-    private String errormsg = "NULL";
+    private String errormsg = "Success";
 
     private boolean hookSuccess = false;
 

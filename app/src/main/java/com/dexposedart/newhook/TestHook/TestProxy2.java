@@ -23,7 +23,7 @@ public class TestProxy2 extends XC_MethodReplacement {
     @Override
     public MethodHookParam replaceHookedMethod(MethodHookParam param) throws Throwable {
         Toast.makeText(App.getContext(), ((Button) param.args[0]).getText() + "->hook", 0).show();
-        //设置方法返回值
+        //设置方法返回值 有返回值方法在继承XC_MethodReplacement的是否必须设置返回值
         param.setResult(123);
         return param;
     }

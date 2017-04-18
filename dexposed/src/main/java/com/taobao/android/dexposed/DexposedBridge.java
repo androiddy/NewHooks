@@ -38,10 +38,10 @@ import android.content.Context;
 import android.os.Build.VERSION;
 import android.util.Log;
 
-import com.taobao.android.dexposed.Hook22_23.Dexposed_Art;
-import com.taobao.android.dexposed.Hook22_23.utils.HookInfo;
-import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
-import com.taobao.android.dexposed.Hook22_23.utils.HookResult;
+import com.taobao.android.dexposed.HookArt.Dexposed_Art;
+import com.taobao.android.dexposed.HookArt.utils.HookInfo;
+import com.taobao.android.dexposed.HookArt.utils.HookLog;
+import com.taobao.android.dexposed.HookArt.utils.HookResult;
 import com.taobao.android.dexposed.XC_MethodHook.MethodHookParam;
 import com.taobao.android.dexposed.XC_MethodHook.Unhook;
 import com.taobao.android.dexposed.XC_MethodHook.XC_MethodKeepHook;
@@ -184,7 +184,7 @@ public final class DexposedBridge {
             HookInfo hookInfo = DexposedBridge.canDexposed(application.getApplicationContext());
             if (hookInfo.isSupport()) {
                 if (DexposedBridge.ART.equals(hookInfo.getModel())) {
-                    result.setHookSuccess(hookInfo.getHook().findAndHookMethod(hookname, application.getClassLoader(), clazz.getName(), methodName,
+                    result.setHookSuccess(hookInfo.getHook().findAndHookMethod(hookname, clazz, methodName,
                             FormattedClass((Class<?>) parameterTypesAndCallback[1], parameterTypesAndCallback),
                             ((Class) parameterTypesAndCallback[0]).getName()));
                     if (!result.isHookSuccess()) {
@@ -193,7 +193,7 @@ public final class DexposedBridge {
                     return result;
                 } else {
                     XC_MethodHook callback = (XC_MethodHook) parameterTypesAndCallback[parameterTypesAndCallback.length - 1];
-                    Method m = XposedHelpers.findMethodExact(clazz, methodName, DelParameterTypes(parameterTypesAndCallback));
+                    Method m = XposedHelpers.findMethodExact(application,clazz, methodName, DelParameterTypes(parameterTypesAndCallback));
                     XC_MethodHook.Unhook unhook = hookMethod(m, callback);
                     if (!(callback instanceof XC_MethodKeepHook
                             || callback instanceof XC_MethodKeepReplacement)) {
@@ -221,7 +221,7 @@ public final class DexposedBridge {
         List<String> list = new ArrayList<String>();
         for (int i = 2; i < objects.length; i++) {
             if (i != objects.length - 1) {
-                list.add(ClassUtils.getClassString(((Class) objects[i]).getCanonicalName()));
+                list.add(ClassUtils.getClassString(((Class) objects[i]).getName()));
             }
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -229,8 +229,8 @@ public final class DexposedBridge {
             stringBuilder.append(string);
         }
         String returns = "V";
-        if (!"void".equals(returnValue.getCanonicalName())) {
-            String index1 = returnValue.getCanonicalName();
+        if (!"void".equals(returnValue.getName())) {
+            String index1 = returnValue.getName();
             returns = ClassUtils.getClassString(index1);
         }
         return "(".concat(stringBuilder.toString()).concat(")").concat(returns);

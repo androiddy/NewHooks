@@ -28,11 +28,11 @@ public class getHooks {
             Hooks hook = element.getAnnotation(Hooks.class);
             ClassName className = ClassName.get("com.taobao.android.dexposed", "XC_MethodHook");
             MethodSpec.Builder bindViewMethodSpecBuilder = MethodSpec.methodBuilder("HookMethod")
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+                    .addModifiers(Modifier.PRIVATE, Modifier.STATIC);
             MethodSpec.Builder bindViewMethodSpecBuilders = MethodSpec.methodBuilder("OriginalHookMethod")
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+                    .addModifiers(Modifier.PRIVATE, Modifier.STATIC);
             MethodSpec.Builder bind = MethodSpec.methodBuilder("setXC_MethodHook")
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                    .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                     .addParameter(className, "xc_methodhooks")
                     .addStatement("if(xc_methodhook == null){\n xc_methodhook = xc_methodhooks;\n}");
             String[] classes = null;

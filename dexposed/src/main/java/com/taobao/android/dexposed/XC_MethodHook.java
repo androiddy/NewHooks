@@ -19,9 +19,7 @@
 package com.taobao.android.dexposed;
 
 import java.lang.reflect.Member;
-import java.util.Map;
 
-import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
 import com.taobao.android.dexposed.callbacks.IXUnhook;
 import com.taobao.android.dexposed.callbacks.XCallback;
 

@@ -1,7 +1,7 @@
-package com.taobao.android.dexposed.Hook22_23.utils;
+package com.taobao.android.dexposed.HookArt.utils;
 
 
-import com.taobao.android.dexposed.Hook22_23.Dexposed_Art;
+import com.taobao.android.dexposed.HookArt.Dexposed_Art;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

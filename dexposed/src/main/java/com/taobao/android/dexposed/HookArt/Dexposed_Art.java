@@ -1,8 +1,8 @@
-package com.taobao.android.dexposed.Hook22_23;
+package com.taobao.android.dexposed.HookArt;
 
 
 import com.taobao.android.dexposed.DexposedBridge;
-import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
+import com.taobao.android.dexposed.HookArt.utils.HookLog;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -13,20 +13,13 @@ import java.lang.reflect.Modifier;
  */
 public class Dexposed_Art {
 
-    private static final String TAG = "dexposed_art";
-
-    public Dexposed_Art() {
-
-    }
-
-    public boolean findAndHookMethod(String[] hookname, ClassLoader originClassLoader, String... strings) {
+    public boolean findAndHookMethod(String[] hookname, Object... strings) {
         try {
-            Class<?> hookItem = Class.forName(strings[strings.length - 1]);
+            Class<?> hookItem = Class.forName((String) strings[strings.length - 1]);
             if (strings[0] == null || strings[0].equals("")) {
-                HookLog.e(strings[0]);
                 return false;
             }
-            Class<?> clazz = Class.forName(strings[0], true, originClassLoader);
+            Class<?> clazz = (Class<?>) strings[0];
             if (Modifier.isAbstract(clazz.getModifiers())) {
                 HookLog.e("Hook may fail for abstract class: " + strings[0]);
             }
@@ -42,7 +35,7 @@ public class Dexposed_Art {
             if (hook == null) {
                 return false;
             }
-            int andBackupAndHook = DexposedBridge.findAndBackupAndHook(clazz, strings[1], strings[2], hook, backup);
+            int andBackupAndHook = DexposedBridge.findAndBackupAndHook(clazz, (String) strings[1], (String) strings[2], hook, backup);
             return andBackupAndHook == 1;
         } catch (Throwable e) {
             e.printStackTrace();

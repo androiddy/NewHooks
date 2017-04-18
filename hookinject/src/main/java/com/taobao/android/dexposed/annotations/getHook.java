@@ -30,11 +30,11 @@ public class getHook {
             Hook hook = element.getAnnotation(Hook.class);
             ClassName className = ClassName.get("com.taobao.android.dexposed", "XC_MethodHook");
             MethodSpec.Builder bindViewMethodSpecBuilder = MethodSpec.methodBuilder("HookMethod")
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+                    .addModifiers(Modifier.PRIVATE, Modifier.STATIC);
             MethodSpec.Builder bindViewMethodSpecBuilders = MethodSpec.methodBuilder("OriginalHookMethod")
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+                    .addModifiers(Modifier.PRIVATE, Modifier.STATIC);
             MethodSpec.Builder bind = MethodSpec.methodBuilder("setXC_MethodHook")
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                    .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                     .addParameter(className, "xc_methodhooks")
                     .addStatement("if(xc_methodhook == null){\n xc_methodhook = xc_methodhooks;\n}");
             Class[] classes = null;
@@ -70,17 +70,19 @@ public class getHook {
                 if (i == leng - 1) {
                     typeindex = typeindex.concat(ss + "};");
                     tyoeindess = tyoeindess.concat(ss + ")");
-                    if (classes != null && classes.length > 0)
+                    if (classes != null && classes.length > 0) {
                         tyoeindes = tyoeindes.concat("(" + Utils.reval(classes[i].getName()).toString() + ")param.args[" + i + "])");
-                    else
+                    } else {
                         tyoeindes = tyoeindes.concat("(" + Utils.reval(classTypeMirror.get(i).toString()).toString() + ")param.args[" + i + "])");
+                    }
                 } else {
                     typeindex = typeindex.concat(ss + ",");
                     tyoeindess = tyoeindess.concat(ss + ",");
-                    if (classes != null && classes.length > 0)
+                    if (classes != null && classes.length > 0) {
                         tyoeindes = tyoeindes.concat("(" + Utils.reval(classes[i].getName()).toString() + ")param.args[" + i + "],");
-                    else
+                    } else {
                         tyoeindes = tyoeindes.concat("(" + Utils.reval(classTypeMirror.get(i).toString()).toString() + ")param.args[" + i + "],");
+                    }
                 }
             }
             if (leng == 0) {

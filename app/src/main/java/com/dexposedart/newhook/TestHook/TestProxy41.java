@@ -1,7 +1,7 @@
 package com.dexposedart.newhook.TestHook;
 
 
-import com.taobao.android.dexposed.Hook22_23.utils.HookLog;
+import com.taobao.android.dexposed.HookArt.utils.HookLog;
 import com.taobao.android.dexposed.XC_MethodHook;
 import com.taobao.android.dexposed.annotations.Hook;
 
