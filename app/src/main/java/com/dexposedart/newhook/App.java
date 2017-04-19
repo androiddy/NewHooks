@@ -5,6 +5,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.dexposedart.newhook.TestHook.TestHookMeanager;
+import com.taobao.android.dexposed.DalvikArt;
+import com.taobao.android.dexposed.DexUtils.ReplaceResult;
+import com.taobao.android.dexposed.callbacks.DexLoaderCallBack;
 
 /**
  * 作者：zhangzhongping on 17/4/11 01:19

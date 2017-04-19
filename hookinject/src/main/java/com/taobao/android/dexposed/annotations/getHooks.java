@@ -80,9 +80,14 @@ public class getHooks {
             FieldSpec.Builder fieldSpec = FieldSpec.builder(className, "xc_methodhook");
             fieldSpec.addModifiers(Modifier.PRIVATE, Modifier.STATIC);
             fieldSpec.initializer("null");
+            String ret = (String) Utils.revals(name);
+            String aptindex = "".equals(ret) ? tyoeindess.concat(";\n") : "return ".concat(tyoeindess).concat(";\n");
+            String aptindex2 = "".equals(ret) ? tyoeindess : "return ".concat(tyoeindess).concat("");
+            String aptindex1 = "".equals(ret) ? "" : "return (".concat(namess.toString()).concat(")param.getResult();\n");
+            String yunindex = "".equals(ret) ? tyoeindes.concat(";\n") : "param.setResult(".concat(tyoeindes).concat(");\n");
             bindViewMethodSpecBuilder.addStatement("" +
-                    "if(xc_methodhook == null){\n" +
-                    "     return " + tyoeindess + ";\n" +
+                    " if(xc_methodhook == null){\n" +
+                    "     " + aptindex + "" +
                     "}\n" +
                     "try{\n" +
                     "XC_MethodHook.MethodHookParam param = new XC_MethodHook.MethodHookParam();\n" +
@@ -91,19 +96,21 @@ public class getHooks {
                     typeindex +
                     "\nif (xc_methodhook instanceof com.taobao.android.dexposed.XC_MethodReplacement) {\n" +
                     "      param = ((com.taobao.android.dexposed.XC_MethodReplacement) xc_methodhook).replaceHookedMethod(param);\n" +
-                    "      return (" + namess.toString() + ")param.getResult();\n" +
+                    "  " + aptindex1 + "" +
                     "  } else {\n" +
                     "       param = xc_methodhook.beforeHookedMethod(param);\n" +
-                    "       param.setResult(" + tyoeindes + ");\n" +
+                    "  " + yunindex + "" +
                     "       param = xc_methodhook.afterHookedMethod(param);\n" +
-                    "       return (" + namess.toString() + ")param.getResult();\n" +
+                    "  " + aptindex1 + "" +
                     " }\n" +
                     "}catch (Throwable e){\n" +
                     "   e.printStackTrace();\n" +
                     "}\n" +
-                    "return " + tyoeindess + "");
-            bindViewMethodSpecBuilders.addStatement("return " + Utils.revals(name));
-            TypeSpec typeSpec = TypeSpec.classBuilder(element.getSimpleName() + "$Hook")
+                    "" + aptindex2 + "");
+            if (!"".equals(ret)) {
+                bindViewMethodSpecBuilders.addStatement(String.valueOf(Utils.revals(name)));
+            }
+            TypeSpec typeSpec = TypeSpec.classBuilder(element.getSimpleName() + "$$Hook")
                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                     .addMethod(bindViewMethodSpecBuilder.build())
                     .addMethod(bindViewMethodSpecBuilders.build())

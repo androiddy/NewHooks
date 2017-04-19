@@ -27,7 +27,7 @@ public class TestProxy4 extends XC_MethodHook {
     @Override
     public MethodHookParam afterHookedMethod(MethodHookParam param) throws Throwable {
         HookLog.e("afterHookedMethod");
-        param.setResult(12);
+        param.setResult(3636363);
         return param;
     }
 }

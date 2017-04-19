@@ -1,8 +1,6 @@
 package com.taobao.android.dexposed.HookArt.utils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+import android.util.Log;
 
 /**
  * 作者：zhangzhongping on 17/4/11 02:47
@@ -21,17 +19,7 @@ public class HookResult {
     }
 
     public void setErrormsg(Throwable errormsg) {
-        Writer writer = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(writer);
-        errormsg.printStackTrace(printWriter);
-        Throwable cause = errormsg.getCause();
-        while (cause != null) {
-            cause.printStackTrace(printWriter);
-            cause = cause.getCause();
-        }
-        printWriter.flush();
-        printWriter.close();
-        this.errormsg = writer.toString();
+        this.errormsg = Log.getStackTraceString(errormsg);
     }
 
     public void setErrormsg(String errormsg) {

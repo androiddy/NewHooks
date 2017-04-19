@@ -45,18 +45,10 @@ public class HookUtils {
         Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application.getClassLoader());
         String methodName = hook == null ? hooks.Name() : hook.Name();
         Class[] type = hook == null ? ClassLoad(hooks.Type(), application) : hook.Type();
-        Object[] obj = new Object[type.length + 1];
-        Class type1 = clazz.getDeclaredMethod(methodName, type).getReturnType();
-        String c = type1.getName();
-        System.arraycopy(type, 0, obj, 1, type.length);
-        if (abbreviationMap.get(c) != null) {
-            obj[0] = abbreviationMap.get(c);
-        } else {
-            obj[0] = Class.forName(c, true, application.getClassLoader());
-        }
-        Object[] objects = new Object[obj.length + 2];
-        System.arraycopy(obj, 0, objects, 1, obj.length);
+        Object[] objects = new Object[type.length + 3];
+        System.arraycopy(type, 0, objects, 2, type.length);
         objects[0] = AdapterCallBackList(type.length, arthook, xc_methodReplacement);
+        objects[1] = clazz.getDeclaredMethod(methodName, type).getReturnType();
         objects[objects.length - 1] = xc_methodReplacement;
         return objects;
     }
@@ -78,15 +70,15 @@ public class HookUtils {
         if (leng > 8) {
             throw new RuntimeException("需要hook的方法参数大于8");
         }
-        return setXc_methodhook(getAptHookClass(mng), xc_methodHook);
+        return setXC_MethodHook(getAptHookClass(mng), xc_methodHook);
     }
 
     private static Class<?> getAptHookClass(Class<?> cl) throws ClassNotFoundException {
-        String classname = cl.getName().concat("$Hook");
+        String classname = cl.getName().concat("$$Hook");
         return Class.forName(classname);
     }
 
-    private static Class<?> setXc_methodhook(Class<?> xc_methodhook, XC_MethodHook xc_methodHook) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    private static Class<?> setXC_MethodHook(Class<?> xc_methodhook, XC_MethodHook xc_methodHook) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Method xc_methodhook1 = xc_methodhook.getDeclaredMethod("setXC_MethodHook", XC_MethodHook.class);
         if (xc_methodhook1 != null) {
             xc_methodhook1.setAccessible(true);

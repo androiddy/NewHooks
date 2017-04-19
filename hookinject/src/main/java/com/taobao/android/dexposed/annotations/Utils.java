@@ -73,7 +73,7 @@ public class Utils {
         abbreviationMap.put("byte", TypeName.BYTE);
         abbreviationMap.put("double", TypeName.DOUBLE);
         abbreviationMap.put("char", TypeName.CHAR);
-        abbreviationMap.put("void", TypeName.OBJECT);
+        abbreviationMap.put("void", TypeName.VOID);
         abbreviationMap.put("java.lang.Object", TypeName.OBJECT);
         abbreviationMap.put("int[]", ClassName.get((Type)int[].class));
         abbreviationMap.put("boolean[]", ClassName.get((Type)boolean[].class));
@@ -116,11 +116,11 @@ public class Utils {
     public static Object revals(String name) {
         if (abbreviationMaps.get(name)!=null) {
             if (abbreviationMaps.get(name).equals("void")) {
-                return "new Object()";
+                return "";
             }
-            return abbreviationMaps.get(name);
+            return "return ".concat(abbreviationMaps.get(name));
         }
-        return "new Object()";
+        return "return new Object()";
     }
 
     public static String getPackageName(TypeElement typeElement) {

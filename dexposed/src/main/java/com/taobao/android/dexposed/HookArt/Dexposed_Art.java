@@ -35,7 +35,8 @@ public class Dexposed_Art {
             if (hook == null) {
                 return false;
             }
-            int andBackupAndHook = DexposedBridge.findAndBackupAndHook(clazz, (String) strings[1], (String) strings[2], hook, backup);
+            int andBackupAndHook = DexposedBridge.findAndBackupAndHook(clazz, (String) strings[1],
+                    (String) strings[2], hook, backup);
             return andBackupAndHook == 1;
         } catch (Throwable e) {
             e.printStackTrace();

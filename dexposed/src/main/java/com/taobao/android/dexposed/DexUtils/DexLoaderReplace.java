@@ -1,19 +1,7 @@
 package com.taobao.android.dexposed.DexUtils;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 import dalvik.system.DexClassLoader;
 import dalvik.system.PathClassLoader;
@@ -23,12 +11,12 @@ import dalvik.system.PathClassLoader;
  */
 public class DexLoaderReplace {
 
-    public static synchronized ReplaceResult injectAboveEqualApiLevel14(Application application,String dexPath) {
+    public static synchronized ReplaceResult injectAboveEqualApiLevel14(Application application, String dexPath) {
         ReplaceResult replaceResult = new ReplaceResult();
         if (android.os.Build.VERSION.SDK_INT >= 15) {
-            PathClassLoader pathClassLoader = (PathClassLoader) application.getClassLoader();
-            DexClassLoader dexClassLoader = new DexClassLoader(dexPath, application.getCacheDir().getPath(), application.getApplicationInfo().nativeLibraryDir, pathClassLoader);
             try {
+                PathClassLoader pathClassLoader = (PathClassLoader) application.getClassLoader();
+                DexClassLoader dexClassLoader = new DexClassLoader(dexPath, application.getCacheDir().getPath(), application.getApplicationInfo().nativeLibraryDir, pathClassLoader);
                 Object pathList = getPathList(pathClassLoader);
                 setField(pathList, pathList.getClass(), "dexElements", getDexElements(getPathList(dexClassLoader)));
                 replaceResult.setSuccess(true);

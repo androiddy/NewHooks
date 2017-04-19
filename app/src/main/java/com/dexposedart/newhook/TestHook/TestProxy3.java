@@ -10,9 +10,9 @@ import com.taobao.android.dexposed.annotations.Hooks;
  * extends XC_MethodReplacement 是用来兼容dalvik虚拟机hook 实现方法是直接替换原方法的
  * extends XC_MethodHook 也是用来兼容dalvik虚拟机hook  两个实现方法是 一个是被hook方法执行前执行  一个是被hook方法执行后执行
  */
-@Hooks(Class = "com.dexposedart.newhook.MainActivity", Name = "nimabi" ,returnVal = "boolean")
+@Hooks(Class = "com.dexposedart.newhook.MainActivity", Name = "nimabi" ,  Type = {"boolean[]"} ,returnVal = "boolean")
 public class TestProxy3 extends XC_MethodReplacement {
-
+    
     @Override
     public MethodHookParam replaceHookedMethod(MethodHookParam param) throws Throwable {
         //设置方法返回值 有返回值方法在继承XC_MethodReplacement的是否必须设置返回值

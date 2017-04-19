@@ -303,7 +303,6 @@ public class ClassUtils {
         if (className == null || className.length() == 0) {
             return STRING_EMPTY;
         }
-
         // Strip array encoding
         while (className.charAt(0) == '[') {
             className = className.substring(1);
@@ -312,7 +311,6 @@ public class ClassUtils {
         if (className.charAt(0) == 'L' && className.charAt(className.length() - 1) == ';') {
             className = className.substring(1);
         }
-
         int i = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR);
         if (i == -1) {
             return STRING_EMPTY;

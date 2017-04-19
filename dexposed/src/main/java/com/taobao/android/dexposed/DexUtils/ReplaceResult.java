@@ -1,8 +1,6 @@
 package com.taobao.android.dexposed.DexUtils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+import android.util.Log;
 
 /**
  * 作者：zhangzhongping on 17/4/17 19:27
@@ -23,17 +21,7 @@ public class ReplaceResult {
     }
 
     public void setErrorMsg(Throwable errormsg) {
-        Writer writer = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(writer);
-        errormsg.printStackTrace(printWriter);
-        Throwable cause = errormsg.getCause();
-        while (cause != null) {
-            cause.printStackTrace(printWriter);
-            cause = cause.getCause();
-        }
-        printWriter.flush();
-        printWriter.close();
-        this.errorMsg = writer.toString();
+        this.errorMsg = Log.getStackTraceString(errormsg);
     }
 
     public boolean isSuccess() {

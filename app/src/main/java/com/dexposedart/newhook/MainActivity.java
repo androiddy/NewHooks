@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void button2(View view) {
-        Log.e("1234444",nimabi()+"");
-        if(nimabi()){
+        Log.e("1234444",nimabi(new boolean[1])+"");
+        if(nimabi(new boolean[1])){
             edit_query.setText("测试3");
         }else{
             edit_query.setText("测试3hook");
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         return msg;
     }
 
-    public boolean nimabi(){
+    public boolean nimabi(boolean[] booleen){
         Log.e("123","nimabo");
         return true;
     }
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void button4(View view){
         Log.e("123",test4((Button) view,"测试4")+"");
+        edit_query.setText(edit_query.getText().toString()+test4((Button) view,"测试4"));
     }
 
 
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static int test4(Button button,String msg){
         Toast.makeText(App.getContext(), button.getText()+msg, 0).show();
+        Log.e("123","sd1f21sdf1s61f6s5df4s65f4----");
         test41();
         return -1;
     }

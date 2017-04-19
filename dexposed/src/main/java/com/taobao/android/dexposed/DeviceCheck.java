@@ -111,7 +111,8 @@ public class DeviceCheck {
             if (abi.contains("x86")) {
                 return true;
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
+            e.printStackTrace();
         } finally {
             if (input != null) {
                 try {
@@ -201,10 +202,8 @@ public class DeviceCheck {
                     "get", String.class);
             s1 = (String) m.invoke(null, "ro.yunos.version");
             s2 = (String) m.invoke(null, "java.vm.name");
-        } catch (NoSuchMethodException a) {
-        } catch (ClassNotFoundException b) {
-        } catch (IllegalAccessException c) {
-        } catch (InvocationTargetException d) {
+        } catch (Throwable a) {
+            a.printStackTrace();
         }
         if ((s2 != null && s2.toLowerCase().contains("lemur")) || (s1 != null && s1.trim().length() > 0)) {
             return true;
