@@ -1,5 +1,8 @@
 # NewHooks
-基于YAHFA和dexposed 结合的hook框架  支持4.0-7.0
+基于YAHFA和dexposed 结合的hook框架 支持安卓4.0-7.0
+
+注:（app目录是demo，hookinject是apt代码，dexposed是框架）
+
 
 2017-4-19 16:20    1.优化内部返回值转换逻辑；  2.优化apt自动生成代码匹配hook无返回值处理逻辑；
 
