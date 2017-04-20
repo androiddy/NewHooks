@@ -44,7 +44,7 @@ public class getHook {
             String tyoeindess = "OriginalHookMethod(";
             List<? extends TypeMirror> classTypeMirror = null;
             try {
-                classes = hook.Type();
+                classes = hook.Parameter();
                 leng = classes.length;
             } catch (MirroredTypesException mte) {
                 classTypeMirror = mte.getTypeMirrors();

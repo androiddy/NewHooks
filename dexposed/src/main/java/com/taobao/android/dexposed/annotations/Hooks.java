@@ -26,5 +26,5 @@ public @interface Hooks {
 
     boolean isStatic();
 
-    String[] Type() default {};
+    String[] Parameter() default {};
 }

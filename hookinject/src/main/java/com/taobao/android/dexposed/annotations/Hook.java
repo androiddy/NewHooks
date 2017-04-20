@@ -23,5 +23,5 @@ public @interface Hook {
 
     boolean isStatic();
 
-    Class[] Type() default {};
+    Class[] Parameter() default {};
 }

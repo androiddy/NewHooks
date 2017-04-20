@@ -44,7 +44,7 @@ public class HookUtils {
         XC_MethodHook xc_methodReplacement = (XC_MethodHook) arthook.newInstance();
         Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application.getClassLoader());
         String methodName = hook == null ? hooks.Name() : hook.Name();
-        Class[] type = hook == null ? ClassLoad(hooks.Type(), application) : hook.Type();
+        Class[] type = hook == null ? ClassLoad(hooks.Parameter(), application) : hook.Parameter();
         Object[] objects = new Object[type.length + 3];
         System.arraycopy(type, 0, objects, 2, type.length);
         objects[0] = AdapterCallBackList(type.length, arthook, xc_methodReplacement);
