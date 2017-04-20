@@ -21,5 +21,7 @@ public @interface Hook {
 
     Class<?> returnVal();
 
+    boolean isStatic();
+
     Class[] Type() default {};
 }

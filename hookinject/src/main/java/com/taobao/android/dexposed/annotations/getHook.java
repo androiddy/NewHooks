@@ -57,7 +57,13 @@ public class getHook {
                 TypeMirror classTypeMirro = e.getTypeMirror();
                 name = classTypeMirro.toString();
             }
-
+            boolean isStatic = hook.isStatic();
+            if (!isStatic) {
+                bindViewMethodSpecBuilder.addParameter(TypeName.OBJECT, "thiz");
+                bindViewMethodSpecBuilders.addParameter(TypeName.OBJECT, "thiz");
+                tyoeindess = tyoeindess.concat("thiz,");
+                tyoeindes = tyoeindes.concat("thiz,");
+            }
             for (int i = 0; i < leng; i++) {
                 String ss = "object" + i;
                 if (classes != null && classes.length > 0) {
@@ -85,7 +91,11 @@ public class getHook {
                     }
                 }
             }
-            if (leng == 0) {
+            if (leng == 0 && isStatic) {
+                typeindex = "param.args = null;";
+                tyoeindes = tyoeindes.concat(")").replace(",", "");
+                tyoeindess = tyoeindess.concat(")").replace(",", "");
+            } else if (leng == 0) {
                 typeindex = "param.args = null;";
                 tyoeindes = tyoeindes.concat(")");
                 tyoeindess = tyoeindess.concat(")");
@@ -97,10 +107,10 @@ public class getHook {
             fieldSpec.addModifiers(Modifier.PRIVATE, Modifier.STATIC);
             fieldSpec.initializer("null");
             String ret = (String) Utils.revals(name);
-            String aptindex = "".equals(ret) ? tyoeindess.concat(";\nreturn;\n") : "return ".concat(tyoeindess).concat(";\n");
-            String aptindex2 = "".equals(ret) ? tyoeindess : "return ".concat(tyoeindess).concat("");
-            String aptindex1 = "".equals(ret) ? "return;\n" : "return (".concat(namess.toString()).concat(")param.getResult();\n");
-            String yunindex = "".equals(ret) ? tyoeindes.concat(";\n") : "param.setResult(".concat(tyoeindes).concat(");\n");
+            String aptindex = "return".equals(ret) ? tyoeindess.concat(";\nreturn;\n") : "return ".concat(tyoeindess).concat(";\n");
+            String aptindex2 = "return".equals(ret) ? tyoeindess : "return ".concat(tyoeindess).concat("");
+            String aptindex1 = "return".equals(ret) ? "return;\n" : "return (".concat(namess.toString()).concat(")param.getResult();\n");
+            String yunindex = "return".equals(ret) ? tyoeindes.concat(";\n") : "param.setResult(".concat(tyoeindes).concat(");\n");
             bindViewMethodSpecBuilder.addStatement("" +
                     " if(xc_methodhook == null){\n" +
                     "" + aptindex + "" +
@@ -123,9 +133,7 @@ public class getHook {
                     "   e.printStackTrace();\n" +
                     "}\n" +
                     "" + aptindex2 + "");
-            if (!"".equals(ret)) {
-                bindViewMethodSpecBuilders.addStatement(String.valueOf(Utils.revals(name)));
-            }
+            bindViewMethodSpecBuilders.addStatement(String.valueOf(Utils.revals(name)));
             TypeSpec typeSpec = TypeSpec.classBuilder(element.getSimpleName() + "$$Hook")
                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                     .addMethod(bindViewMethodSpecBuilder.build())

@@ -97,7 +97,6 @@ public abstract class XCallback implements Comparable<XCallback> {
 	public int compareTo(XCallback other) {
 		if (this == other)
 			return 0;
-		
 		// order descending by priority
 		if (other.priority != this.priority)
 			return other.priority - this.priority;

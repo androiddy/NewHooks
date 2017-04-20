@@ -12,7 +12,7 @@ import com.taobao.android.dexposed.annotations.Hook;
  * extends XC_MethodReplacement 是用来兼容dalvik虚拟机hook 实现方法是直接替换原方法的
  * extends XC_MethodHook 也是用来兼容dalvik虚拟机hook  两个实现方法是 一个是被hook方法执行前执行  一个是被hook方法执行后执行
  */
-@Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "test41",returnVal = void.class)
+@Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "test41",returnVal = void.class,isStatic = true)
 public class TestProxy41 extends XC_MethodHook {
     @Override
     public MethodHookParam beforeHookedMethod(MethodHookParam param) throws Throwable {

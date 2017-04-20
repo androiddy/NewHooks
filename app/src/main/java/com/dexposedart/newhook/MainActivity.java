@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.taobao.android.dexposed.DeviceCheck;
 import com.taobao.android.dexposed.HookArt.utils.HookLog;
+
 
 public class MainActivity extends AppCompatActivity {
     EditText edit_query;
@@ -19,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         edit_query = (EditText) findViewById(R.id.edit_query);
-        Toast.makeText(App.getContext(), DeviceCheck.LoadCPU(), 0).show();
     }
 
     public void button(View view) {

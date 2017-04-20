@@ -41,9 +41,8 @@ public class DalvikArt {
      * 此方法可以用于Hook1个方法
      * <p>
      * <p>
-     * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
-     * <p>
      * 5.0 以上可能不支持hook某些系统函数以及可能无法调用原方法
+     *
      */
     public synchronized static HookResult findAndHookMethod(Application application, Class<?> arthook) {
         Hook hook = arthook.getAnnotation(Hook.class);
@@ -73,8 +72,6 @@ public class DalvikArt {
      * <p>
      * 此方法可以用于Hook多个方法
      * <p>
-     * <p>
-     * 提示 Hook Activity类的非静态方法可能会oom  如果发现oom的情况请换hook点
      * <p>
      * 5.0 以上可能不支持hook某些系统函数以及可能无法调用原方法
      */

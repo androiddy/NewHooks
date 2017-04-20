@@ -16,11 +16,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Hook {
+
     String Class();
 
     String Name();
 
     Class<?> returnVal();
+
+    boolean isStatic();
 
     Class[] Type() default {};
 }

@@ -181,9 +181,9 @@ public final class DexposedBridge {
                 result.setHookSuccess(false);
                 return result;
             }
-            HookInfo hookInfo = DexposedBridge.canDexposed(application.getApplicationContext());
+            HookInfo hookInfo = canDexposed(application.getApplicationContext());
             if (hookInfo.isSupport()) {
-                if (DexposedBridge.ART.equals(hookInfo.getModel())) {
+                if (ART.equals(hookInfo.getModel())) {
                     result.setHookSuccess(hookInfo.getHook().findAndHookMethod(hookname, clazz, methodName,
                             FormattedClass((Class<?>) parameterTypesAndCallback[1], parameterTypesAndCallback),
                             ((Class) parameterTypesAndCallback[0]).getName()));
@@ -193,7 +193,7 @@ public final class DexposedBridge {
                     return result;
                 } else {
                     XC_MethodHook callback = (XC_MethodHook) parameterTypesAndCallback[parameterTypesAndCallback.length - 1];
-                    Method m = XposedHelpers.findMethodExact(application,clazz, methodName, DelParameterTypes(parameterTypesAndCallback));
+                    Method m = XposedHelpers.findMethodExact(application, clazz, methodName, DelParameterTypes(parameterTypesAndCallback));
                     XC_MethodHook.Unhook unhook = hookMethod(m, callback);
                     if (!(callback instanceof XC_MethodKeepHook
                             || callback instanceof XC_MethodKeepReplacement)) {
@@ -290,7 +290,6 @@ public final class DexposedBridge {
         param.Model = DALVIK;
         param.thisObject = thisObject;
         param.args = args;
-
         // call "before method" callbacks
         int beforeIdx = 0;
         do {
@@ -303,14 +302,12 @@ public final class DexposedBridge {
                 param.returnEarly = false;
                 continue;
             }
-
             if (param.returnEarly) {
                 // skip remaining "before" callbacks and corresponding "after" callbacks
                 beforeIdx++;
                 break;
             }
         } while (++beforeIdx < callbacksLength);
-
         // call original method if not requested otherwise
         if (!param.returnEarly) {
             try {
@@ -320,7 +317,6 @@ public final class DexposedBridge {
                 param.setThrowable(e.getCause());
             }
         }
-
         // call "after method" callbacks
         int afterIdx = beforeIdx - 1;
         do {
@@ -331,7 +327,6 @@ public final class DexposedBridge {
                 ((XC_MethodHook) callbacksSnapshot[afterIdx]).afterHookedMethod(param);
             } catch (Throwable t) {
                 DexposedBridge.log(t);
-
                 // reset to last result (ignoring what the unexpectedly exiting callback did)
                 if (lastThrowable == null)
                     param.setResult(lastResult);
@@ -339,7 +334,6 @@ public final class DexposedBridge {
                     param.setThrowable(lastThrowable);
             }
         } while (--afterIdx >= 0);
-
         // return
         if (param.hasThrowable())
             throw param.getThrowable();

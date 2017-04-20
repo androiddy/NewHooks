@@ -14,7 +14,7 @@ import com.taobao.android.dexposed.annotations.Hook;
  * extends XC_MethodHook 也是用来兼容dalvik虚拟机hook  两个实现方法是 一个是被hook方法执行前执行  一个是被hook方法执行后执行
  */
 @Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "Toasts",
-        Type = {Boolean[].class, String.class, View[].class}, returnVal = String.class)
+        Type = {Boolean[].class, String.class, View[].class}, returnVal = String.class ,isStatic = true)
 public class TestProxy1 extends XC_MethodHook {
     
     @Override

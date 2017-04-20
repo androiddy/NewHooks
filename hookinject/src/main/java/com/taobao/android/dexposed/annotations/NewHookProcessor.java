@@ -19,8 +19,6 @@ public class NewHookProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        Utils.Init();
-        Utils.Inits();
         Set<String> annotataions = new LinkedHashSet<String>(2);
         annotataions.add(Hook.class.getCanonicalName());
         annotataions.add(Hooks.class.getCanonicalName());
