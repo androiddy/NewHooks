@@ -3,6 +3,8 @@
 
 注:（app目录是demo，hookinject是apt代码，dexposed是框架）
 
+2017-4-22 00:17    1.更改注解参数名称 Type修改为Parameter 使其更加贴；
+
 2017-4-22 00:07    1.修复art模式hook非静态方法参数错乱问题； 2.新增注解参数 isStatic 用于辅助hookinject实现生成代码(isStatic用来表示需要hook的方法是不是静态方法 是＝true 不是＝false)；
 
 2017-4-19 16:20    1.优化内部返回值转换逻辑；  2.优化hookinject匹配hook无返回值处理逻辑；
