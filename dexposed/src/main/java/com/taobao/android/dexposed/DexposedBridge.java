@@ -142,7 +142,6 @@ public final class DexposedBridge {
                 parameterTypes = ((Constructor<?>) hookMethod).getParameterTypes();
                 returnType = null;
             }
-
             AdditionalHookInfo additionalInfo = new AdditionalHookInfo(callbacks, parameterTypes, returnType);
             hookMethodNative(hookMethod, declaringClass, slot, additionalInfo);
         }
@@ -400,7 +399,6 @@ public final class DexposedBridge {
     private static native void init(int SDK_version);
 
     public static Object invokeSuper(Object obj, Member method, Object... args) throws NoSuchFieldException {
-
         try {
             if (runtime == RUNTIME_UNKNOW) runtime = getRuntime();
 
@@ -410,7 +408,6 @@ public final class DexposedBridge {
                 Method m = XposedHelpers.findMethodExact(obj.getClass().getSuperclass(), method.getName(), ((Method) method).getParameterTypes());
                 slot = (int) getIntField(m, "slot");
             }
-
             return invokeSuperNative(obj, args, method, method.getDeclaringClass(), ((Method) method).getParameterTypes(), ((Method) method).getReturnType(), slot);
 
         } catch (IllegalAccessException e) {

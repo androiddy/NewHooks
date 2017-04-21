@@ -14,6 +14,7 @@ import com.taobao.android.dexposed.annotations.Hook;
  */
 @Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "test41",returnVal = void.class,isStatic = true)
 public class TestProxy41 extends XC_MethodHook {
+
     @Override
     public MethodHookParam beforeHookedMethod(MethodHookParam param) throws Throwable {
         HookLog.e("test41 beforeHookedMethod");

@@ -91,14 +91,10 @@ public class getHook {
                     }
                 }
             }
-            if (leng == 0 && isStatic) {
+            if (leng == 0 ) {
                 typeindex = "param.args = null;";
                 tyoeindes = tyoeindes.concat(")").replace(",", "");
                 tyoeindess = tyoeindess.concat(")").replace(",", "");
-            } else if (leng == 0) {
-                typeindex = "param.args = null;";
-                tyoeindes = tyoeindes.concat(")");
-                tyoeindess = tyoeindess.concat(")");
             }
             TypeName namess = Utils.reval(name);
             bindViewMethodSpecBuilder.returns(namess);
