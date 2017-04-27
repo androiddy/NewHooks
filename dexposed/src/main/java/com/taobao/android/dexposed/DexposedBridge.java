@@ -266,10 +266,11 @@ public final class DexposedBridge {
 
     static void unhookMethods(Class hookProxy) {
         try {
-            IXUnhook ixUnhook = unhookMap.get(HookUtils.getAptHookClass(hookProxy));
+            Class<?> hook = HookUtils.getAptHookClass(hookProxy);
+            IXUnhook ixUnhook = unhookMap.get(hook);
             if (ixUnhook != null) {
                 ixUnhook.unhook();
-                unhookMap.remove(HookUtils.getAptHookClass(hookProxy));
+                unhookMap.remove(hook);
             }
         } catch (Throwable e) {
             e.printStackTrace();
@@ -285,7 +286,7 @@ public final class DexposedBridge {
         }
         synchronized (unhookMap) {
             for (Map.Entry<Class, IXUnhook> entry : unhookMap.entrySet()) {
-                unhookMap.get(entry.getKey()).unhook();
+                entry.getValue().unhook();
             }
             unhookMap.clear();
         }

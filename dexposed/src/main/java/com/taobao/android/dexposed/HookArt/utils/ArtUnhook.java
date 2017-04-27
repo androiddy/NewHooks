@@ -20,10 +20,10 @@ public class ArtUnhook implements IXUnhook {
     @Override
     public void unhook() {
         try {
-            Method methodhook = hook.getDeclaredMethod("setXC_MethodHook", XC_MethodHook.class);
-            if (methodhook != null) {
-                methodhook.setAccessible(true);
-                methodhook.invoke(null, new Object[]{null});
+            Method methodism = hook.getDeclaredMethod("setXC_MethodHook", XC_MethodHook.class);
+            if (methodism != null) {
+                methodism.setAccessible(true);
+                methodism.invoke(null, new Object[]{null});
             }
         } catch (Throwable e) {
             e.printStackTrace();
