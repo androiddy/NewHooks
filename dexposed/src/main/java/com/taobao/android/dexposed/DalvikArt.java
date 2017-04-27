@@ -92,15 +92,7 @@ public class DalvikArt {
      * @param hookProxy
      */
     public synchronized static void Unhook(Class<?> hookProxy) {
-        try {
-            IXUnhook ixUnhook = DexposedBridge.getUnhookMap().get(HookUtils.getAptHookClass(hookProxy));
-            if (ixUnhook != null) {
-                ixUnhook.unhook();
-                DexposedBridge.getUnhookMap().remove(HookUtils.getAptHookClass(hookProxy));
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        DexposedBridge.unhookMethods(hookProxy);
     }
 
     /**
@@ -110,4 +102,13 @@ public class DalvikArt {
         DexposedBridge.unhookAllMethods();
     }
 
+
+    /**
+     * 用于返回当前所有处于hook状态的绑定hook或者hooks注解的类名称
+     * 用于查看哪些hook是成功的以及没有卸载的
+     * @return
+     */
+    public synchronized static List<String> getAllHookName(){
+        return DexposedBridge.getAllHookName();
+    }
 }

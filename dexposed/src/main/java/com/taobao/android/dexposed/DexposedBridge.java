@@ -66,12 +66,8 @@ public final class DexposedBridge {
     private static HookInfo hookInfo = new HookInfo();
     private static Dexposed_Art dexposed_art = new Dexposed_Art();
     public static final ClassLoader BOOTCLASSLOADER = ClassLoader.getSystemClassLoader();
-    private static Map<Class, IXUnhook> unhookMap = new HashMap<>();
+    private static final Map<Class, IXUnhook> unhookMap = new HashMap<>();
 
-
-    protected static Map<Class, IXUnhook> getUnhookMap() {
-        return unhookMap;
-    }
 
     // built-in handlers
     private static final Map<Member, CopyOnWriteSortedSet<XC_MethodHook>> hookedMethodCallbacks
@@ -162,7 +158,7 @@ public final class DexposedBridge {
      * @param hookMethod The method for which the callback should be removed
      * @param callback   The reference to the callback as specified in {@link #hookMethod}
      */
-    public static void unhookMethod(Member hookMethod, XC_MethodHook callback) {
+    protected static void unhookMethod(Member hookMethod, XC_MethodHook callback) {
         CopyOnWriteSortedSet<XC_MethodHook> callbacks;
         synchronized (hookedMethodCallbacks) {
             callbacks = hookedMethodCallbacks.get(hookMethod);
@@ -196,8 +192,9 @@ public final class DexposedBridge {
                             ((Class) parameterTypesAndCallback[0]).getName()));
                     if (!result.isHookSuccess()) {
                         result.setErrormsg("未找到需要hook的方法或者类");
+                    } else {
+                        unhookMap.put((Class) parameterTypesAndCallback[0], new ArtUnhook((Class) parameterTypesAndCallback[0]));
                     }
-                    unhookMap.put((Class) parameterTypesAndCallback[0], new ArtUnhook((Class) parameterTypesAndCallback[0]));
                     return result;
                 } else {
                     XC_MethodHook callback = (XC_MethodHook) parameterTypesAndCallback[parameterTypesAndCallback.length - 1];
@@ -259,11 +256,30 @@ public final class DexposedBridge {
         return obj;
     }
 
+    static List<String> getAllHookName() {
+        List<String> list = new ArrayList<String>();
+        for (Map.Entry<Class, IXUnhook> entry : unhookMap.entrySet()) {
+            list.add(entry.getKey().getName());
+        }
+        return list;
+    }
 
-    protected static void unhookAllMethods() {
+    static void unhookMethods(Class hookProxy) {
+        try {
+            IXUnhook ixUnhook = unhookMap.get(HookUtils.getAptHookClass(hookProxy));
+            if (ixUnhook != null) {
+                ixUnhook.unhook();
+                unhookMap.remove(HookUtils.getAptHookClass(hookProxy));
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void unhookAllMethods() {
         synchronized (allUnhookCallbacks) {
             for (int i = 0; i < allUnhookCallbacks.size(); i++) {
-                ((Unhook) allUnhookCallbacks.get(i)).unhook();
+                allUnhookCallbacks.get(i).unhook();
             }
             allUnhookCallbacks.clear();
         }
