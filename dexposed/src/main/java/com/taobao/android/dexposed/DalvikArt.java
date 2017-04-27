@@ -94,7 +94,10 @@ public class DalvikArt {
     public synchronized static void Unhook(Class<?> hookProxy) {
         try {
             IXUnhook ixUnhook = DexposedBridge.getUnhookMap().get(HookUtils.getAptHookClass(hookProxy));
-            ixUnhook.unhook();
+            if (ixUnhook != null) {
+                ixUnhook.unhook();
+                DexposedBridge.getUnhookMap().remove(HookUtils.getAptHookClass(hookProxy));
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
