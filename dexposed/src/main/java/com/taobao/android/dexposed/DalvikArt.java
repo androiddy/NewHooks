@@ -9,6 +9,7 @@ import com.taobao.android.dexposed.HookArt.utils.HookUtils;
 import com.taobao.android.dexposed.annotations.Hook;
 import com.taobao.android.dexposed.annotations.Hooks;
 import com.taobao.android.dexposed.callbacks.DexLoaderCallBack;
+import com.taobao.android.dexposed.callbacks.IXUnhook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,14 @@ import java.util.List;
  * 邮箱：android_dy@163.com
  */
 public class DalvikArt {
+
     /**
      * 此方法用于替换内存中dex
      * 参数1:Application
      * 参数2:需要替换dex的路径
      * 参数3:替换完成后接口回调
-     *@author zhangzhongping
+     *
+     * @author zhangzhongping
      * created at 17/4/17 19:35
      */
     public synchronized static void DexLoaderReplace(Application application, String dexPath, DexLoaderCallBack dexLoaderCallBack) {
@@ -42,7 +45,6 @@ public class DalvikArt {
      * <p>
      * <p>
      * 5.0 以上可能不支持hook某些系统函数以及可能无法调用原方法
-     *
      */
     public synchronized static HookResult findAndHookMethod(Application application, Class<?> arthook) {
         Hook hook = arthook.getAnnotation(Hook.class);
@@ -82,4 +84,27 @@ public class DalvikArt {
         }
         return list;
     }
+
+    /**
+     * 用于卸载指定hook的方法
+     * 参数为绑定hook或者hooks注解的类
+     *
+     * @param hookProxy
+     */
+    public synchronized static void Unhook(Class<?> hookProxy) {
+        try {
+            IXUnhook ixUnhook = DexposedBridge.getUnhookMap().get(HookUtils.getAptHookClass(hookProxy));
+            ixUnhook.unhook();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 用于卸载全部hook的方法
+     */
+    public synchronized static void UnhookAll() {
+        DexposedBridge.unhookAllMethods();
+    }
+
 }

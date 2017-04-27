@@ -53,4 +53,25 @@
         android:layout_marginBottom="19dp"
         android:text="测试4" />
 
+    <Button
+        android:id="@+id/button5"
+        android:onClick="jiechubutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button2"
+        android:layout_toEndOf="@+id/edit_query"
+        android:layout_toRightOf="@+id/edit_query"
+        android:text="卸载hook1" />
+
+    <Button
+        android:id="@+id/button6"
+        android:onClick="jiechubuttonAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/button"
+        android:layout_marginTop="11dp"
+        android:text="卸载AllHook" />
+
 </RelativeLayout>

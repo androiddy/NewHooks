@@ -36,9 +36,9 @@ public class getHook {
             MethodSpec.Builder bind = MethodSpec.methodBuilder("setXC_MethodHook")
                     .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                     .addParameter(className, "xc_methodhooks")
-                    .addStatement("if(xc_methodhook == null){\n xc_methodhook = xc_methodhooks;\n}");
+                    .addStatement("xc_methodhook = xc_methodhooks");
             Class[] classes = null;
-            int leng = 0;
+            int leng;
             String typeindex = "param.args = new Object[]{";
             String tyoeindes = "OriginalHookMethod(";
             String tyoeindess = "OriginalHookMethod(";

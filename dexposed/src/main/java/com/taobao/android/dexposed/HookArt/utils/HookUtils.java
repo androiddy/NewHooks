@@ -73,12 +73,12 @@ public class HookUtils {
         return setXC_MethodHook(getAptHookClass(mng), xc_methodHook);
     }
 
-    private static Class<?> getAptHookClass(Class<?> cl) throws ClassNotFoundException {
+    public static Class<?> getAptHookClass(Class<?> cl) throws ClassNotFoundException {
         String classname = cl.getName().concat("$$Hook");
         return Class.forName(classname);
     }
 
-    private static Class<?> setXC_MethodHook(Class<?> xc_methodhook, XC_MethodHook xc_methodHook) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    private static Class<?> setXC_MethodHook(Class<?> xc_methodhook, Object xc_methodHook) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Method xc_methodhook1 = xc_methodhook.getDeclaredMethod("setXC_MethodHook", XC_MethodHook.class);
         if (xc_methodhook1 != null) {
             xc_methodhook1.setAccessible(true);

@@ -16,6 +16,7 @@ import java.util.List;
 public class TestHookMeanager {
 
     public static TestHookMeanager testHookMeanager;
+    HookResult andHookMethods;
 
     public static TestHookMeanager getTestHookMeanager() {
         if (testHookMeanager == null) {
@@ -25,14 +26,22 @@ public class TestHookMeanager {
     }
 
     public boolean StartFrameHook(Application application) {
-        HookResult andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy1.class);
+        andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy1.class);
         HookLog.e(andHookMethods.getErrormsg());
         return andHookMethods.isHookSuccess();
     }
 
+    public void jiechuhook() {
+        DalvikArt.Unhook(TestProxy1.class);
+    }
+
+    public void jiechuhookAll() {
+        DalvikArt.UnhookAll();
+    }
+
     public boolean[] StartFrameHook1(Application application) {
         List<HookResult> andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy2.class, TestProxy3.class);
-        HookLog.e(andHookMethods.get(0).getErrormsg()+"---"+andHookMethods.get(1).getErrormsg());
+        HookLog.e(andHookMethods.get(0).getErrormsg() + "---" + andHookMethods.get(1).getErrormsg());
         return new boolean[]{andHookMethods.get(0).isHookSuccess(), andHookMethods.get(1).isHookSuccess()};
     }
 
@@ -41,6 +50,7 @@ public class TestHookMeanager {
         HookLog.e(andHookMethods.getErrormsg());
         return andHookMethods.isHookSuccess();
     }
+
     public boolean StartFrameHook41(Application application) {
         HookResult andHookMethods = DalvikArt.findAndHookMethod(application, TestProxy41.class);
         HookLog.e(andHookMethods.getErrormsg());

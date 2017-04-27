@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.dexposedart.newhook.TestHook.TestHookMeanager;
 import com.taobao.android.dexposed.HookArt.utils.HookLog;
 
 
@@ -72,5 +74,13 @@ public class MainActivity extends AppCompatActivity {
     }
     public static void test41(){
         Toast.makeText(App.getContext(), "1123", 0).show();
+    }
+
+    public void jiechubutton(View view){
+        TestHookMeanager.getTestHookMeanager().jiechuhook();
+    }
+
+    public void jiechubuttonAll(View view){
+        TestHookMeanager.getTestHookMeanager().jiechuhookAll();
     }
 }

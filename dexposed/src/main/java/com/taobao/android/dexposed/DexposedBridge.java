@@ -39,14 +39,17 @@ import android.os.Build.VERSION;
 import android.util.Log;
 
 import com.taobao.android.dexposed.HookArt.Dexposed_Art;
+import com.taobao.android.dexposed.HookArt.utils.ArtUnhook;
 import com.taobao.android.dexposed.HookArt.utils.HookInfo;
 import com.taobao.android.dexposed.HookArt.utils.HookLog;
 import com.taobao.android.dexposed.HookArt.utils.HookResult;
+import com.taobao.android.dexposed.HookArt.utils.HookUtils;
 import com.taobao.android.dexposed.XC_MethodHook.MethodHookParam;
 import com.taobao.android.dexposed.XC_MethodHook.Unhook;
 import com.taobao.android.dexposed.XC_MethodHook.XC_MethodKeepHook;
 import com.taobao.android.dexposed.XC_MethodReplacement.XC_MethodKeepReplacement;
 import com.taobao.android.dexposed.XposedHelpers.InvocationTargetError;
+import com.taobao.android.dexposed.callbacks.IXUnhook;
 
 
 public final class DexposedBridge {
@@ -63,7 +66,12 @@ public final class DexposedBridge {
     private static HookInfo hookInfo = new HookInfo();
     private static Dexposed_Art dexposed_art = new Dexposed_Art();
     public static final ClassLoader BOOTCLASSLOADER = ClassLoader.getSystemClassLoader();
+    private static Map<Class, IXUnhook> unhookMap = new HashMap<>();
 
+
+    protected static Map<Class, IXUnhook> getUnhookMap() {
+        return unhookMap;
+    }
 
     // built-in handlers
     private static final Map<Member, CopyOnWriteSortedSet<XC_MethodHook>> hookedMethodCallbacks
@@ -189,6 +197,7 @@ public final class DexposedBridge {
                     if (!result.isHookSuccess()) {
                         result.setErrormsg("未找到需要hook的方法或者类");
                     }
+                    unhookMap.put((Class) parameterTypesAndCallback[0], new ArtUnhook((Class) parameterTypesAndCallback[0]));
                     return result;
                 } else {
                     XC_MethodHook callback = (XC_MethodHook) parameterTypesAndCallback[parameterTypesAndCallback.length - 1];
@@ -200,6 +209,7 @@ public final class DexposedBridge {
                             allUnhookCallbacks.add(unhook);
                         }
                     }
+                    unhookMap.put((Class) parameterTypesAndCallback[0], unhook);
                     result.setHookSuccess(true);
                     return result;
                 }
@@ -250,12 +260,18 @@ public final class DexposedBridge {
     }
 
 
-    public static void unhookAllMethods() {
+    protected static void unhookAllMethods() {
         synchronized (allUnhookCallbacks) {
             for (int i = 0; i < allUnhookCallbacks.size(); i++) {
                 ((Unhook) allUnhookCallbacks.get(i)).unhook();
             }
             allUnhookCallbacks.clear();
+        }
+        synchronized (unhookMap) {
+            for (Map.Entry<Class, IXUnhook> entry : unhookMap.entrySet()) {
+                unhookMap.get(entry.getKey()).unhook();
+            }
+            unhookMap.clear();
         }
     }
 
@@ -272,7 +288,6 @@ public final class DexposedBridge {
     private static Object handleHookedMethod(Member method, int originalMethodId, Object additionalInfoObj,
                                              Object thisObject, Object[] args) throws Throwable {
         AdditionalHookInfo additionalInfo = (AdditionalHookInfo) additionalInfoObj;
-
         Object[] callbacksSnapshot = additionalInfo.callbacks.getSnapshot();
         final int callbacksLength = callbacksSnapshot.length;
         if (callbacksLength == 0) {
@@ -283,7 +298,6 @@ public final class DexposedBridge {
                 throw e.getCause();
             }
         }
-
         MethodHookParam param = new MethodHookParam();
         param.method = method;
         param.Model = DALVIK;
@@ -355,7 +369,7 @@ public final class DexposedBridge {
 
     private static HookInfo loadDexposedLib(Context context) {
         try {
-            if (android.os.Build.VERSION.SDK_INT >= 21 && android.os.Build.VERSION.SDK_INT <= 24) {
+            if (VERSION.SDK_INT >= 21 && VERSION.SDK_INT <= 24) {
                 if (!isLoad) {
                     System.loadLibrary("dexposed_art");
                     init(android.os.Build.VERSION.SDK_INT);
@@ -363,13 +377,14 @@ public final class DexposedBridge {
                 hookInfo.setSupport(true);
                 hookInfo.setHook(dexposed_art);
                 hookInfo.setModel(ART);
-            } else if ((android.os.Build.VERSION.SDK_INT >= 19 && android.os.Build.VERSION.SDK_INT < 21) && DeviceCheck.isArtMode()) {
+            } else if ((VERSION.SDK_INT >= 19 && VERSION.SDK_INT < 21)
+                    && DeviceCheck.isArtMode()) {
                 if (!isLoad) {
                     System.loadLibrary("dexposed_l");
                 }
                 hookInfo.setSupport(true);
                 hookInfo.setModel(DALVIK);
-            } else if (android.os.Build.VERSION.SDK_INT > 14) {
+            } else if (VERSION.SDK_INT >= 15) {
                 if (!isLoad) {
                     System.loadLibrary("dexposed");
                 }
