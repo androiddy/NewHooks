@@ -3,6 +3,8 @@
 
 注:（app目录是demo，hookinject是apt代码，dexposed是框架）
 
+2017-4-27 15:38    1.新增卸载指定hook的方法(Unhook)；  2.新增卸载全部hook的方法(UnhookAll)
+
 2017-4-21 23:28    1.修复hookinject代码在生成 hook非静态并且无参数方法 回调代码时的错误;
 
 2017-4-21 00:17    1.更改注解参数名称 Type修改为Parameter 使其更加贴；
