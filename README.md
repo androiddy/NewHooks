@@ -3,6 +3,8 @@
 
 注:（app目录是demo，hookinject是apt代码，dexposed是框架）
 
+2017-4-28 00:20    1.优化art模式hook
+
 2017-4-27 16:23    1.优化卸载hook的api：  2.新增getAllHookName；
 
 2017-4-27 15:38    1.新增卸载指定hook的方法(Unhook)；  2.新增卸载全部hook的方法(UnhookAll)
