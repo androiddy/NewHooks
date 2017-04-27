@@ -3,6 +3,8 @@
 
 注:（app目录是demo，hookinject是apt代码，dexposed是框架）
 
+2017-4-27 15:38    1.新增卸载指定hook的方法(Unhook)；  2.新增卸载全部hook的方法(UnhookAll)
+
 2017-4-21 23:28    1.修复hookinject代码在生成 hook非静态并且无参数方法 回调代码时的错误;
 
 2017-4-21 00:17    1.更改注解参数名称 Type修改为Parameter 使其更加贴；
@@ -19,7 +21,7 @@
 2017-4-16 16:22    1.优化hookinject，修复某些hook方法(返回值为8种基本类型的方法)无法修改返回值问题； 2.优化注解配合apt生成代码 新增returnVal参数需要手动设置需要hook方法的返回值
 
 
-2017-4-15 16:21    1.优化YAHFA部分hook回调基于apt(结合dexposed回调共用一套)： 2.去除HookMethod｜OriginalHookMethod 注解：  3.删除原有hook方式
+2017-4-15 16:21    1.优化YAHFA部分hook回调基于apt(结合dexposed回调共用一套)： 2.去除HookMethod｜OriginalHookMethod 注解：  3.删除原有非注解hook方式
 
 
 2017-4-14 14:23    1.优化HookMethod和OriginalHookMethod注解,去除参数由框架自动获取；   2.新增多hook方法(传入多个绑定Hook或者Hooks注解的类.class即可，返回List)
@@ -33,7 +35,7 @@
  
 2017-4-13 01:06：  1.纠正5.1art模式判断逻辑；
  
-2017-4-12 24:56：  1.新增注解Hooks；  2.过时非注解hook方式；  3.优化Hook|Hooks注解type参数去除返回值参数，由框架自动获取；
+2017-4-12 23:56：  1.新增注解Hooks；  2.过时非注解hook方式；  3.优化Hook|Hooks注解type参数去除返回值参数，由框架自动获取；
   
 2017-4-12 19:20：  1.新增注解方式Hook；  2.完善hook返回信息；  3.纠正hook过程判断逻辑；
  
