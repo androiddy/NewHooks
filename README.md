@@ -3,6 +3,8 @@
 
 注:（app目录是demo，hookinject是apt代码，dexposed是框架）
 
+2017-4-28 00:20      1.优化art模式hook
+
 2017-4-27 16:23    1.优化卸载hook的api：  2.新增getAllHookName；
 
 2017-4-27 15:38    1.新增卸载指定hook的方法(Unhook)；  2.新增卸载全部hook的方法(UnhookAll)
@@ -18,7 +20,7 @@
 2017-4-18 16:35    1.优化内部hook参数处理逻辑,修复参数错乱hook失败问题；  2.新增DexLoaderReplace方法用于替换内存中的dex(实验)； 3.修复细节
 
 
-2017-4-17 02:48    1.优化hookinject自动匹配参数类型方式内存错乱；  2.纠正hook回调机制； 3.修复小细节
+2017-4-17 02:48    1.优化hookinject自动匹配参数类型防止内存错乱；  2.纠正hook回调机制； 3.修复小细节
 
 2017-4-16 16:22    1.优化hookinject，修复某些hook方法(返回值为8种基本类型的方法)无法修改返回值问题； 2.优化注解配合apt生成代码 新增returnVal参数需要手动设置需要hook方法的返回值
 
