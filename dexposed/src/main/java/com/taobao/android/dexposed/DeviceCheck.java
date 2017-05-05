@@ -55,8 +55,7 @@ public class DeviceCheck {
 
     private static String getCurrentRuntimeValue() {
         try {
-            Class<?> systemProperties = Class
-                    .forName("android.os.SystemProperties");
+            Class<?> systemProperties = Class.forName("android.os.SystemProperties");
             try {
                 Method get = systemProperties.getMethod("get", String.class,
                         String.class);
@@ -65,8 +64,7 @@ public class DeviceCheck {
                 }
                 try {
                     final String value = (String) get.invoke(systemProperties,
-                            SELECT_RUNTIME_PROPERTY,
-                            /* Assuming default is */"Dalvik");
+                            SELECT_RUNTIME_PROPERTY, "Dalvik");
                     if (LIB_DALVIK.equals(value)) {
                         return "Dalvik";
                     } else if (LIB_ART.equals(value)) {
@@ -173,11 +171,12 @@ public class DeviceCheck {
     }
 
 
-    public static synchronized boolean isDeviceSupport(Context context) {
+    public static synchronized boolean isDeviceSupport() {
         try {
-            if (isCheckedDeviceSupport)
+            if (isCheckedDeviceSupport) {
                 return isDeviceSupportable;
-            if (!isX86CPU() && !isYunOS() && Build.VERSION.SDK_INT <= 21) {
+            }
+            if (!isX86CPU() && !isYunOS() && Build.VERSION.SDK_INT <= 21 && Build.VERSION.SDK_INT >= 15) {
                 isDeviceSupportable = true;
             } else if (isArt() && Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT <= 24) {
                 isDeviceSupportable = true;

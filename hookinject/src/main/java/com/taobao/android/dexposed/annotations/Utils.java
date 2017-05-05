@@ -104,14 +104,14 @@ public class Utils {
     }
 
 
-    public static TypeName reval(String name) {
+    public static TypeName Parameter(String name) {
         if (abbreviationMap.get(name) != null) {
             return abbreviationMap.get(name);
         }
         return TypeName.OBJECT;
     }
 
-    public static Object revals(String name) {
+    public static Object ReturnValue(String name) {
         if (abbreviationMaps.get(name) != null) {
             if (abbreviationMaps.get(name).equals("void")) {
                 return "return";

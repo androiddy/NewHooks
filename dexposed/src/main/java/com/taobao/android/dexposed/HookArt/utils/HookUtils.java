@@ -40,9 +40,9 @@ public class HookUtils {
         abbreviationMap.put("char[]", char[].class);
     }
 
-    public static Object[] ClassJX(Hook hook, Hooks hooks, Class arthook, Application application) throws Throwable {
+    public static Object[] ClassJX(Hook hook, Hooks hooks, Class arthook, ClassLoader application) throws Throwable {
         XC_MethodHook xc_methodReplacement = (XC_MethodHook) arthook.newInstance();
-        Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application.getClassLoader());
+        Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application);
         String methodName = hook == null ? hooks.Name() : hook.Name();
         Class[] type = hook == null ? ClassLoad(hooks.Parameter(), application) : hook.Parameter();
         Object[] objects = new Object[type.length + 3];
@@ -54,13 +54,13 @@ public class HookUtils {
     }
 
 
-    private static Class[] ClassLoad(String[] strings, Application application) throws Throwable {
+    private static Class[] ClassLoad(String[] strings, ClassLoader application) throws Throwable {
         Class[] classes = new Class[strings.length];
         for (int i = 0; i < strings.length; i++) {
             if (abbreviationMap.get(strings[i]) != null) {
                 classes[i] = abbreviationMap.get(strings[i]);
             } else {
-                classes[i] = Class.forName(strings[i], true, application.getClassLoader());
+                classes[i] = Class.forName(strings[i], true, application);
             }
         }
         return classes;

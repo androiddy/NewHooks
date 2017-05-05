@@ -35,25 +35,12 @@ public class getHooks {
                     .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
                     .addParameter(className, "xc_methodhooks")
                     .addStatement("xc_methodhook = xc_methodhooks");
-            String[] classes = null;
-            int leng;
             String typeindex = "param.args = new Object[]{";
             String tyoeindes = "OriginalHookMethod(";
             String tyoeindess = "OriginalHookMethod(";
-            try {
-                classes = hook.Parameter();
-                leng = classes.length;
-            } catch (MirroredTypesException mte) {
-                List<? extends TypeMirror> classTypeMirror = mte.getTypeMirrors();
-                leng = classTypeMirror.size();
-            }
-            String name;
-            try {
-                name = hook.returnVal();
-            } catch (MirroredTypeException e) {
-                TypeMirror classTypeMirror = e.getTypeMirror();
-                name = classTypeMirror.toString();
-            }
+            String[] classes = hook.Parameter();
+            int leng = classes.length;
+            String name = hook.returnVal();
             boolean isStatic = hook.isStatic();
             if (!isStatic) {
                 bindViewMethodSpecBuilder.addParameter(TypeName.OBJECT, "thiz");
@@ -63,30 +50,30 @@ public class getHooks {
             }
             for (int i = 0; i < leng; i++) {
                 String ss = "object" + i;
-                bindViewMethodSpecBuilder.addParameter(Utils.reval(classes[i]), ss);
-                bindViewMethodSpecBuilders.addParameter(Utils.reval(classes[i]), ss);
+                bindViewMethodSpecBuilder.addParameter(Utils.Parameter(classes[i]), ss);
+                bindViewMethodSpecBuilders.addParameter(Utils.Parameter(classes[i]), ss);
                 if (i == leng - 1) {
                     typeindex = typeindex.concat(ss + "};");
-                    tyoeindes = tyoeindes.concat("(" + Utils.reval(classes[i]).toString() + ")param.args[" + i + "])");
+                    tyoeindes = tyoeindes.concat("(" + Utils.Parameter(classes[i]).toString() + ")param.args[" + i + "])");
                     tyoeindess = tyoeindess.concat(ss + ")");
                 } else {
                     typeindex = typeindex.concat(ss + ",");
                     tyoeindess = tyoeindess.concat(ss + ",");
-                    tyoeindes = tyoeindes.concat("(" + Utils.reval(classes[i]).toString() + ")param.args[" + i + "],");
+                    tyoeindes = tyoeindes.concat("(" + Utils.Parameter(classes[i]).toString() + ")param.args[" + i + "],");
                 }
             }
             if (leng == 0) {
                 typeindex = "param.args = null;";
-                tyoeindes = tyoeindes.concat(")").replace(",","");
-                tyoeindess = tyoeindess.concat(")").replace(",","");
+                tyoeindes = tyoeindes.concat(")").replace(",", "");
+                tyoeindess = tyoeindess.concat(")").replace(",", "");
             }
-            TypeName namess = Utils.reval(name);
+            TypeName namess = Utils.Parameter(name);
             bindViewMethodSpecBuilder.returns(namess);
             bindViewMethodSpecBuilders.returns(namess);
             FieldSpec.Builder fieldSpec = FieldSpec.builder(className, "xc_methodhook");
             fieldSpec.addModifiers(Modifier.PRIVATE, Modifier.STATIC);
             fieldSpec.initializer("null");
-            String ret = (String) Utils.revals(name);
+            String ret = (String) Utils.ReturnValue(name);
             String aptindex = "return".equals(ret) ? tyoeindess.concat(";\n") : "return ".concat(tyoeindess).concat(";\n");
             String aptindex2 = "return".equals(ret) ? tyoeindess : "return ".concat(tyoeindess).concat("");
             String aptindex1 = "return".equals(ret) ? "" : "return (".concat(namess.toString()).concat(")param.getResult();\n");
@@ -113,7 +100,7 @@ public class getHooks {
                     "   e.printStackTrace();\n" +
                     "}\n" +
                     "" + aptindex2 + "");
-            bindViewMethodSpecBuilders.addStatement(String.valueOf(Utils.revals(name)));
+            bindViewMethodSpecBuilders.addStatement(String.valueOf(Utils.ReturnValue(name)));
             TypeSpec typeSpec = TypeSpec.classBuilder(element.getSimpleName() + "$$Hook")
                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                     .addMethod(bindViewMethodSpecBuilder.build())

@@ -24,7 +24,7 @@ public class Dexposed_Art {
                 HookLog.e("Hook may fail for abstract class: " + strings[0]);
             }
             Method hook = null;
-               Method backup = null;
+            Method backup = null;
             for (Method method : hookItem.getDeclaredMethods()) {
                 if (method.getName().equals(hookname[0])) {
                     hook = method;

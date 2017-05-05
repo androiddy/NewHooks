@@ -9,15 +9,9 @@ import android.util.Log;
  */
 public class HookResult {
 
-    private String type;
-
     private String errormsg = "Success";
 
     private boolean hookSuccess = false;
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public void setErrormsg(Throwable errormsg) {
         this.errormsg = Log.getStackTraceString(errormsg);
@@ -29,10 +23,6 @@ public class HookResult {
 
     public void setHookSuccess(boolean hookSuccess) {
         this.hookSuccess = hookSuccess;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public String getErrormsg() {

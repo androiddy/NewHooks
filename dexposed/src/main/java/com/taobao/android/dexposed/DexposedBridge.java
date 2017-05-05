@@ -60,7 +60,6 @@ public final class DexposedBridge {
     private static int runtime = RUNTIME_UNKNOW;
     public static String DALVIK = "dalvik";
     public static String ART = "art";
-    private static String ART4_5 = "art4.4_5.0";
     private static boolean isLoad = false;
     private static final Object[] EMPTY_ARRAY = new Object[0];
     private static HookInfo hookInfo = new HookInfo();
@@ -120,7 +119,6 @@ public final class DexposedBridge {
         if (!(hookMethod instanceof Method) && !(hookMethod instanceof Constructor<?>)) {
             throw new IllegalArgumentException("only methods and constructors can be hooked");
         }
-
         boolean newMethod = false;
         CopyOnWriteSortedSet<XC_MethodHook> callbacks;
         synchronized (hookedMethodCallbacks) {
@@ -136,7 +134,6 @@ public final class DexposedBridge {
             Class<?> declaringClass = hookMethod.getDeclaringClass();
             if (runtime == RUNTIME_UNKNOW) runtime = getRuntime();
             int slot = (runtime == RUNTIME_DALVIK) ? (int) getIntField(hookMethod, "slot") : 0;
-
             Class<?>[] parameterTypes;
             Class<?> returnType;
             if (hookMethod instanceof Method) {
@@ -176,7 +173,7 @@ public final class DexposedBridge {
         return unhooks;
     }
 
-    protected static HookResult findAndHookMethod(Application application, String[] hookname, Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
+    protected static HookResult findAndHookMethod(ClassLoader application, String[] hookname, Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
         HookResult result = new HookResult();
         try {
             if (parameterTypesAndCallback.length == 0 || !(parameterTypesAndCallback[parameterTypesAndCallback.length - 1] instanceof XC_MethodHook)) {
@@ -184,7 +181,7 @@ public final class DexposedBridge {
                 result.setHookSuccess(false);
                 return result;
             }
-            HookInfo hookInfo = canDexposed(application.getApplicationContext());
+            HookInfo hookInfo = canDexposed();
             if (hookInfo.isSupport()) {
                 if (ART.equals(hookInfo.getModel())) {
                     result.setHookSuccess(hookInfo.getHook().findAndHookMethod(hookname, clazz, methodName,
@@ -193,7 +190,8 @@ public final class DexposedBridge {
                     if (!result.isHookSuccess()) {
                         result.setErrormsg("未找到需要hook的方法或者类");
                     } else {
-                        unhookMap.put((Class) parameterTypesAndCallback[0], new ArtUnhook((Class) parameterTypesAndCallback[0]));
+                        unhookMap.put((Class) parameterTypesAndCallback[0],
+                                new ArtUnhook((Class) parameterTypesAndCallback[0]));
                     }
                     return result;
                 } else {
@@ -279,14 +277,19 @@ public final class DexposedBridge {
 
     static void unhookAllMethods() {
         synchronized (allUnhookCallbacks) {
-            for (int i = 0; i < allUnhookCallbacks.size(); i++) {
-                allUnhookCallbacks.get(i).unhook();
+            for (IXUnhook ixUnhook : allUnhookCallbacks) {
+                if (ixUnhook != null) {
+                    ixUnhook.unhook();
+                }
             }
             allUnhookCallbacks.clear();
         }
         synchronized (unhookMap) {
             for (Map.Entry<Class, IXUnhook> entry : unhookMap.entrySet()) {
-                entry.getValue().unhook();
+                IXUnhook ixUnhook = entry.getValue();
+                if (ixUnhook != null) {
+                    ixUnhook.unhook();
+                }
             }
             unhookMap.clear();
         }
@@ -352,7 +355,6 @@ public final class DexposedBridge {
         do {
             Object lastResult = param.getResult();
             Throwable lastThrowable = param.getThrowable();
-
             try {
                 ((XC_MethodHook) callbacksSnapshot[afterIdx]).afterHookedMethod(param);
             } catch (Throwable t) {
@@ -374,22 +376,22 @@ public final class DexposedBridge {
     /**
      * Check device if can run dexposed, and load libs auto.
      */
-    private synchronized static HookInfo canDexposed(Context context) {
+    private synchronized static HookInfo canDexposed() {
         hookInfo = new HookInfo();
-        if (!DeviceCheck.isDeviceSupport(context)) {
+        if (!DeviceCheck.isDeviceSupport()) {
             hookInfo.setErrorMsg("当前手机不支持所有Hook模块");
             hookInfo.setSupport(false);
             return hookInfo;
         }
-        return loadDexposedLib(context);
+        return loadDexposedLib();
     }
 
-    private static HookInfo loadDexposedLib(Context context) {
+    private static HookInfo loadDexposedLib() {
         try {
             if (VERSION.SDK_INT >= 21 && VERSION.SDK_INT <= 24) {
                 if (!isLoad) {
                     System.loadLibrary("dexposed_art");
-                    init(android.os.Build.VERSION.SDK_INT);
+                    init(VERSION.SDK_INT);
                 }
                 hookInfo.setSupport(true);
                 hookInfo.setHook(dexposed_art);

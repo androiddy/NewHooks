@@ -9,6 +9,7 @@ import com.taobao.android.dexposed.HookArt.utils.HookUtils;
 import com.taobao.android.dexposed.annotations.Hook;
 import com.taobao.android.dexposed.annotations.Hooks;
 import com.taobao.android.dexposed.callbacks.DexLoaderCallBack;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +49,13 @@ public class DalvikArt {
         Hook hook = arthook.getAnnotation(Hook.class);
         Hooks hooks = arthook.getAnnotation(Hooks.class);
         HookResult hookResult = new HookResult();
+        ClassLoader classLoader = application == null ? ClassLoader.getSystemClassLoader() : application.getClassLoader();
         if (hook != null || hooks != null) {
             try {
-                Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, application.getClassLoader());
+                Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, classLoader);
                 String methodName = hook == null ? hooks.Name() : hook.Name();
-                return DexposedBridge.findAndHookMethod(application, new String[]{"HookMethod", "OriginalHookMethod"}, clazz, methodName,
-                        HookUtils.ClassJX(hook, hooks, arthook, application));
+                return DexposedBridge.findAndHookMethod(classLoader, new String[]{"HookMethod", "OriginalHookMethod"}, clazz, methodName,
+                        HookUtils.ClassJX(hook, hooks, arthook, classLoader));
             } catch (Throwable e) {
                 e.printStackTrace();
                 hookResult.setErrormsg(e);
@@ -104,9 +106,10 @@ public class DalvikArt {
     /**
      * 用于返回当前所有处于hook状态的绑定hook或者hooks注解的类名称
      * 用于查看哪些hook是成功的以及没有卸载的
+     *
      * @return
      */
-    public synchronized static List<String> getAllHookName(){
+    public synchronized static List<String> getAllHookName() {
         return DexposedBridge.getAllHookName();
     }
 }
