@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.dexposedart.newhook.TestHook.TestHookMeanager;
 import com.taobao.android.dexposed.DalvikArt;
+import com.taobao.android.dexposed.DeviceCheck;
 import com.taobao.android.dexposed.HookArt.utils.HookLog;
 
 

@@ -43,7 +43,6 @@ public class DalvikArt {
      * 此方法可以用于Hook1个方法
      * <p>
      * <p>
-     * 5.0 以上可能不支持hook某些系统函数以及可能无法调用原方法
      */
     public synchronized static HookResult findAndHookMethod(Application application, Class<?> arthook) {
         Hook hook = arthook.getAnnotation(Hook.class);
@@ -75,7 +74,6 @@ public class DalvikArt {
      * 此方法可以用于Hook多个方法
      * <p>
      * <p>
-     * 5.0 以上可能不支持hook某些系统函数以及可能无法调用原方法
      */
     public synchronized static List<HookResult> findAndHookMethod(Application application, Class<?>... arthook) {
         List<HookResult> list = new ArrayList<>();

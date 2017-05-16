@@ -6,8 +6,6 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-
-import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -129,7 +127,7 @@ public class getHook {
                     "   e.printStackTrace();\n" +
                     "}\n" +
                     "" + aptindex2 + "");
-            bindViewMethodSpecBuilders.addStatement(String.valueOf(Utils.ReturnValue(name)));
+            bindViewMethodSpecBuilders.addStatement("System.out.print(String.class);\n"+String.valueOf(Utils.ReturnValue(name)));
             TypeSpec typeSpec = TypeSpec.classBuilder(element.getSimpleName() + "$$Hook")
                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                     .addMethod(bindViewMethodSpecBuilder.build())

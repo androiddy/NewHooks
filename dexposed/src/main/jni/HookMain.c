@@ -110,7 +110,7 @@ static void doBackupAndHook(void *originMethod, void *hookMethod, void *backupMe
     }
     else { //do method backup
         void *dexCacheResolvedMethods = (void *)readAddr((void *)((char *)backupMethod+OFFSET_dex_cache_resolved_methods_in_ArtMethod));
-        int methodIndex = read32((void *)((char *)backupMethod+
+        int methodIndex = readAddr((void *)((char *)backupMethod+
                 OFFSET_dex_method_index_in_ArtMethod));
         //first update the cached method manually
         memcpy((char *)dexCacheResolvedMethods+OFFSET_array_in_PointerArray+pointer_size*methodIndex,

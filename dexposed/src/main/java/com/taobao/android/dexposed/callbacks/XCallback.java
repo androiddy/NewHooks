@@ -91,7 +91,7 @@ public abstract class XCallback implements Comparable<XCallback> {
 		}
 	}
 	
-	protected void call(Param param) throws Throwable {};
+	protected void call(Param param) throws Throwable {}
 	
 	@Override
 	public int compareTo(XCallback other) {
