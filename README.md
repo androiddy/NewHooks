@@ -3,6 +3,8 @@
 
 注:（app目录是demo，hookinject是apt代码，dexposed是框架）
 
+2017-5-16 18:26    1.修复5.0 art模式某些手机hook后无法调用原方法bug
+
 2017-5-5  18:17    1.优化安卓5.0hook
 
 2017-4-28 00:20    1.优化art模式hook
