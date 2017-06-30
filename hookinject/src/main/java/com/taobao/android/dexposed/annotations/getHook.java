@@ -127,7 +127,7 @@ public class getHook {
                     "   e.printStackTrace();\n" +
                     "}\n" +
                     "" + aptindex2 + "");
-            bindViewMethodSpecBuilders.addStatement("System.out.print(String.class);\n"+String.valueOf(Utils.ReturnValue(name)));
+            bindViewMethodSpecBuilders.addStatement("    System.out.print(String.class);\n"+String.valueOf(Utils.ReturnValue(name)));
             TypeSpec typeSpec = TypeSpec.classBuilder(element.getSimpleName() + "$$Hook")
                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                     .addMethod(bindViewMethodSpecBuilder.build())

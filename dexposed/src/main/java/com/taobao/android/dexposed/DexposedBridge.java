@@ -563,7 +563,6 @@ public final class DexposedBridge {
             for (Class<?> c : parameterTypes) {
                 sb.append(Class2Shorty(c));
             }
-
             shorty = sb.toString();
         }
 

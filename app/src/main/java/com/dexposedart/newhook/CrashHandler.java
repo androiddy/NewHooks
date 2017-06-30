@@ -23,7 +23,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
 
-    private static final String PATH = Environment.getExternalStorageDirectory() + "/AppArchive/crash/";
+    private static final String PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
     private static final String FILE_NAME = "crash";
 
     //log文件的后缀名
@@ -94,7 +94,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-
         PrintWriter pw = null;
         try {
             File file = new File(PATH + FILE_NAME + System.nanoTime() + FILE_NAME_SUFFIX);

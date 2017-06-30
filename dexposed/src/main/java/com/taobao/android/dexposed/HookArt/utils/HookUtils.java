@@ -1,12 +1,9 @@
 package com.taobao.android.dexposed.HookArt.utils;
 
 
-import android.app.Application;
-
 import com.taobao.android.dexposed.XC_MethodHook;
 import com.taobao.android.dexposed.annotations.Hook;
 import com.taobao.android.dexposed.annotations.Hooks;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -79,10 +76,10 @@ public class HookUtils {
     }
 
     private static Class<?> setXC_MethodHook(Class<?> xc_methodhook, Object xc_methodHook) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Method xc_methodhook1 = xc_methodhook.getDeclaredMethod("setXC_MethodHook", XC_MethodHook.class);
-        if (xc_methodhook1 != null) {
-            xc_methodhook1.setAccessible(true);
-            xc_methodhook1.invoke(null, xc_methodHook);
+        Method xc_method1 = xc_methodhook.getDeclaredMethod("setXC_MethodHook", XC_MethodHook.class);
+        if (xc_method1 != null) {
+            xc_method1.setAccessible(true);
+            xc_method1.invoke(null, xc_methodHook);
         } else {
             throw new RuntimeException("内部错误");
         }

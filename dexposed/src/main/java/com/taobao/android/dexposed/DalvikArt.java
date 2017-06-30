@@ -1,6 +1,7 @@
 package com.taobao.android.dexposed;
 
 import android.app.Application;
+import android.util.Base64;
 
 import com.taobao.android.dexposed.DexUtils.DexLoaderReplace;
 import com.taobao.android.dexposed.DexUtils.ReplaceResult;
@@ -48,7 +49,8 @@ public class DalvikArt {
         Hook hook = arthook.getAnnotation(Hook.class);
         Hooks hooks = arthook.getAnnotation(Hooks.class);
         HookResult hookResult = new HookResult();
-        ClassLoader classLoader = application == null ? ClassLoader.getSystemClassLoader() : application.getClassLoader();
+        ClassLoader classLoader = application == null ? ClassLoader.getSystemClassLoader()
+                : application.getClassLoader();
         if (hook != null || hooks != null) {
             try {
                 Class<?> clazz = Class.forName(hook == null ? hooks.Class() : hook.Class(), true, classLoader);
@@ -110,4 +112,5 @@ public class DalvikArt {
     public synchronized static List<String> getAllHookName() {
         return DexposedBridge.getAllHookName();
     }
+
 }

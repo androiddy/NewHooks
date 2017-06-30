@@ -10,7 +10,7 @@ public class HookLog {
 
     public static boolean isShow = true;
 
-    public static String TAG = "NewHooks";
+    private static String TAG = "NewHooks";
 
     public static void e(String msg) {
         if (isShow) {

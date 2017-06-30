@@ -178,11 +178,8 @@ public class DeviceCheck {
             }
             if (!isX86CPU() && !isYunOS() && Build.VERSION.SDK_INT <= 21 && Build.VERSION.SDK_INT >= 15) {
                 isDeviceSupportable = true;
-            } else if (isArt() && Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT <= 24) {
-                isDeviceSupportable = true;
-            } else {
-                isDeviceSupportable = false;
-            }
+            } else
+                isDeviceSupportable = isArt() && Build.VERSION.SDK_INT >= 21 && Build.VERSION.SDK_INT <= 24;
         } finally {
             isCheckedDeviceSupport = true;
         }
