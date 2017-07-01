@@ -56,11 +56,13 @@ public class getHook {
                 name = classTypeMirro.toString();
             }
             boolean isStatic = hook.isStatic();
+            String obj = null;
             if (!isStatic) {
                 bindViewMethodSpecBuilder.addParameter(TypeName.OBJECT, "thiz");
                 bindViewMethodSpecBuilders.addParameter(TypeName.OBJECT, "thiz");
                 tyoeindess = tyoeindess.concat("thiz,");
                 tyoeindes = tyoeindes.concat("thiz,");
+                obj = "thiz";
             }
             for (int i = 0; i < leng; i++) {
                 String ss = "object" + i;
@@ -113,6 +115,7 @@ public class getHook {
                     "XC_MethodHook.MethodHookParam param = new XC_MethodHook.MethodHookParam();\n" +
                     "param.Model = com.taobao.android.dexposed.DexposedBridge.ART;\n" +
                     "param.HookMethod = xc_methodhook;\n" +
+                    "param.thisObject = "+obj+";\n" +
                     typeindex +
                     "\nif (xc_methodhook instanceof com.taobao.android.dexposed.XC_MethodReplacement) {\n" +
                     "      param = ((com.taobao.android.dexposed.XC_MethodReplacement) xc_methodhook).replaceHookedMethod(param);\n" +

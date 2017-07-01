@@ -16,9 +16,9 @@ import com.taobao.android.dexposed.annotations.Hook;
 @Hook(Class = "com.dexposedart.newhook.MainActivity", Name = "Toasts",
         Parameter = {Boolean[].class, String.class, View[].class}, returnVal = String.class ,isStatic = true)
 public class TestProxy1 extends XC_MethodHook {
-
     @Override
     public MethodHookParam beforeHookedMethod(MethodHookParam param) throws Throwable {
+
         HookLog.e("beforeHookedMethod");
         param.args[1] = param.args[1] + "hook---";
         return param;

@@ -1,5 +1,6 @@
 package com.dexposedart.newhook.TestHook;
 
+import com.dexposedart.newhook.MainActivity;
 import com.taobao.android.dexposed.XC_MethodReplacement;
 import com.taobao.android.dexposed.annotations.Hooks;
 
@@ -17,6 +18,8 @@ public class TestProxy3 extends XC_MethodReplacement {
 
     @Override
     public MethodHookParam replaceHookedMethod(MethodHookParam param) throws Throwable {
+        MainActivity mainActivity = (MainActivity) param.thisObject;
+        mainActivity.MainAct("MainActhook");
         //设置方法返回值 有返回值方法在继承XC_MethodReplacement的时候必须设置返回值
         param.setResult(false);
         return param;

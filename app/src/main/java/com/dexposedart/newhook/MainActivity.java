@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         return msg;
     }
 
+    public void MainAct(String msg){
+        Toast.makeText(App.getContext(),msg, 0).show();
+    }
+
     public boolean nimabi(boolean[] booleen){
         Log.e("123","nimabo");
         return true;
@@ -86,4 +90,6 @@ public class MainActivity extends AppCompatActivity {
     public void jiechubuttonAll(View view){
         TestHookMeanager.getTestHookMeanager().jiechuhookAll();
     }
+
+
 }
