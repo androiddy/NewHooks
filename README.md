@@ -3,6 +3,8 @@
 
 注:（app目录是demo，hookinject是apt代码，dexposed是框架）
 
+2017-7-01  10:35   1:新增非静态方法hook回调MethodHookParam.thisOnject参数为当前hook类的实例对象,静态方法hook次参数将为NULL
+
 2017-6-30 19:34     1.对编译检查和垃圾回收做了对应的处理
 
 2017-5-16 18:26    1.修复5.0以上 art模式某些手机hook后无法调用原方法bug
